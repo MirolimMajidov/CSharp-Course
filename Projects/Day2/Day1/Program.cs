@@ -1,20 +1,42 @@
-﻿using ClassNamespace;
-using Microsoft.VisualBasic;
-using System.Runtime.InteropServices;
-using TestPro;
+﻿// Declaration of delegate
+using System;
 
-namespace Day2;
+delegate void Calculator(int a, int b);
 
-internal class Program
+class Program
 {
-    public static void Main(string[] args)
+    static void Main()
     {
-        var user = new MyPublicUser();
+        Calculator calculator = Addition;
+        calculator(10, 5);//Result: 15
 
+        //Recalling delegate
+        calculator = Subtraction;
+        calculator(10, 5);//Result: 5
+
+        Console.ReadLine();
+
+        //Methods for operations
+        void Addition(int a, int b)
+        {
+            Console.WriteLine(a + b);
+        }
+
+        void Subtraction(int a, int b)
+        {
+            Console.WriteLine(a - b);
+        }
     }
 
-    static int Sum(int a, int b)
+    // Declaration of event
+    public static event EventHandler MyEvent;
+
+    static void Main2()
     {
-        return a + b;
+        // Subscribing to the event
+        MyEvent += (sender, e) => Console.WriteLine("Event triggered!");
+
+        // Raising the event
+        MyEvent?.Invoke(null, EventArgs.Empty);
     }
 }
