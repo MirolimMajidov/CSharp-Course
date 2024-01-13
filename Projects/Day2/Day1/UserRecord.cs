@@ -1,5 +1,7 @@
 ﻿namespace RecordNamespace
 {
+    internal record UserRecord2(string ID, string Name);
+
     internal record UserRecord
     {
         public string Name { get; set; }

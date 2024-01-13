@@ -2,9 +2,10 @@
 
 namespace ClassNamespace
 {
-    internal class UserClass
+    public class UserClass
     {
-        public readonly string Name;
+        internal readonly int ID;
+        internal readonly string Name;
         public string Name2 { get; }
 
         private string _lastName;
@@ -14,7 +15,7 @@ namespace ClassNamespace
             {
                 return string.IsNullOrEmpty(_lastName) ? "Majidov" : _lastName;
             }
-            set
+            private set
             {
                 if (value.StartsWith("M") == true)
                     _lastName = value;
@@ -23,6 +24,8 @@ namespace ClassNamespace
 
         public UserClass()
         {
+            ID = 0; 
+            LastName = "asdasdasdasd";
         }
 
         public UserClass(string name)

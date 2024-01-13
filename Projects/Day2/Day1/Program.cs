@@ -1,4 +1,7 @@
 ﻿using ClassNamespace;
+using Microsoft.VisualBasic;
+using System.Runtime.InteropServices;
+using TestPro;
 
 namespace Day2;
 
@@ -6,12 +9,12 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        var user = new UserClass("Mirolim");
-        var user2 = new UserRecord("Mirolim");
-        var user3 = new UserStruct("Mirolim");
+        var user = new MyPublicUser();
 
-        user.DoWork();
+    }
 
-        UserClass.PrintHello("Salom");
+    static int Sum(int a, int b)
+    {
+        return a + b;
     }
 }
