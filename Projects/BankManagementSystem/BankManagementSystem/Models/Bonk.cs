@@ -1,4 +1,6 @@
-﻿namespace BankManagementSystem.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace BankManagementSystem.Models;
 
 public class Bonk : BaseEntity
 {
@@ -14,5 +16,6 @@ public class Bonk : BaseEntity
 
     public List<Branch> Branchs { get; set; }
 
+    [JsonIgnore]
     public List<Department> Departments { get; set; }
 }
