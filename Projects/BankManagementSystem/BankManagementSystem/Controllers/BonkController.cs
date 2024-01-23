@@ -21,8 +21,6 @@ namespace BankManagementSystem.Controllers
             bonk.Name = "Eskhata";
             bonk.Address = "Guliston";
 
-            bonk.Id = Guid.NewGuid();
-
             var branch1 = new Branch();
             branch1.Address = "Station";
 

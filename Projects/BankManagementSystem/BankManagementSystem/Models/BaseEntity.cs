@@ -6,7 +6,7 @@ public abstract class BaseEntity
 
     public BaseEntity()
     {
-        Id = Guid.Empty;
+        Id = Guid.NewGuid();
     }
 
     public override string ToString()
