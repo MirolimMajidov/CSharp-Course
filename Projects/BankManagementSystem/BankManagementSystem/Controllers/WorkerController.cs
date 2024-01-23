@@ -1,5 +1,6 @@
 ﻿
 using BankManagementSystem.Models;
+using BankManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankManagementSystem.Controllers;
@@ -8,58 +9,39 @@ namespace BankManagementSystem.Controllers;
 [Route("[controller]")]
 public class WorkerController : ControllerBase
 {
-    static Dictionary<Guid, Worker> Items = new Dictionary<Guid, Worker>();
+    readonly IWorkerService _service;
+    public WorkerController(IWorkerService service)
+    {
+        _service = service;
+    }
 
     [HttpGet("AllItems")]
     public IEnumerable<Worker> Get()
     {
-        return Items.Values;
+        return _service.GetAll();
     }
 
     [HttpGet("GetItemById")]
     public Worker Get(Guid id)
     {
-        return Items.SingleOrDefault(w => w.Key == id).Value;
+        return _service.GetById(id);
     }
 
     [HttpPost("Create")]
     public string Post([FromBody] Worker item)
     {
-        if (string.IsNullOrEmpty(item.FirstName))
-        {
-            return "The name cannot be empty";
-        }
-        else
-        {
-            Items.Add(item.Id, item);
-            return $"Created new item with this ID: {item.Id}";
-        }
+        return _service.Create(item);
     }
 
     [HttpPut("Update")]
     public string Put([FromQuery] Guid id, [FromBody] Worker item)
     {
-        var _item = Items.SingleOrDefault(w => w.Key == id).Value;
-        if(_item is null)
-        {
-            return "Item not found";
-        }
-        _item.FirstName = item.FirstName;
-        _item.LastName = item.LastName;
-        _item.Birthday = item.Birthday;
-        return "Item updated";
+        return _service.Update(id, item);
     }
 
     [HttpDelete("Delete")]
     public string Delete([FromQuery] Guid id)
     {
-        var _item = Items.SingleOrDefault(w => w.Key == id).Value;
-        if (_item is null)
-        {
-            return "Item not found";
-        }
-        Items.Remove(id);
-
-        return "Item deleted";
+        return _service.Delete(id);
     }
 }
