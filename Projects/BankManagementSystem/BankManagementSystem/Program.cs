@@ -1,6 +1,3 @@
-
-using BankManagementSystem.Models;
-
 namespace BankManagementSystem;
 
 public class Program

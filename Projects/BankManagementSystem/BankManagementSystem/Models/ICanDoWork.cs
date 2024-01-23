@@ -1,6 +1,7 @@
 ﻿namespace BankManagementSystem.Models
 {
-    public class Department : BaseEntity
+    public interface ICanDoWork
     {
+        void DoWork();
     }
 }
