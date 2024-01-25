@@ -4,8 +4,8 @@ namespace BankManagementSystem.Services
 {
     public class WorkerService : IWorkerService
     {
-        IWorkerRepository _repository;
-        public WorkerService(IWorkerRepository repository)
+        IMemoryRepository<Worker> _repository;
+        public WorkerService(IMemoryRepository<Worker> repository)
         {
             _repository = repository;
         }

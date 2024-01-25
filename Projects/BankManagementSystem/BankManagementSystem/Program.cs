@@ -15,8 +15,8 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<IWorkerService, WorkerService>();
-        builder.Services.AddSingleton<IWorkerRepository, WorkerRepository>();
-        builder.Services.AddScoped<IClientService, ClientService>(); builder.Services.AddSingleton<IClientRepository, ClientRepository>();
+        builder.Services.AddScoped<IClientService, ClientService>();
+        builder.Services.AddSingleton(typeof(IMemoryRepository<>), typeof(MemoryRepository<>));
 
         var app = builder.Build();
 

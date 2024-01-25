@@ -4,8 +4,8 @@ namespace BankManagementSystem.Services
 {
     public class ClientService : IClientService
     {
-        IClientRepository _repository;
-        public ClientService(IClientRepository repository)
+        IMemoryRepository<Client> _repository;
+        public ClientService(IMemoryRepository<Client> repository)
         {
             _repository = repository;
         }
