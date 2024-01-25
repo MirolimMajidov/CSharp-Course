@@ -4,16 +4,20 @@ namespace BankManagementSystem.Services
 {
     public class ClientService : IClientService
     {
-        static Dictionary<Guid, Client> Items = new Dictionary<Guid, Client>();
+        IClientRepository _repository;
+        public ClientService(IClientRepository repository)
+        {
+            _repository = repository;
+        }
 
         public IEnumerable<Client> GetAll()
         {
-            return Items.Values;
+            return _repository.GetAll();
         }
 
         public Client GetById(Guid id)
         {
-            return Items.SingleOrDefault(w => w.Key == id).Value;
+            return _repository.GetById(id);
         }
 
         public string Create(Client item)
@@ -24,32 +28,30 @@ namespace BankManagementSystem.Services
             }
             else
             {
-                Items.Add(item.Id, item);
+                _repository.Create(item);
                 return $"Created new item with this ID: {item.Id}";
             }
         }
 
         public string Update(Guid id, Client item)
         {
-            var _item = Items.SingleOrDefault(w => w.Key == id).Value;
+            var _item = _repository.GetById(id);
             if (_item is null)
             {
                 return "Item not found";
             }
-            _item.FirstName = item.FirstName;
-            _item.LastName = item.LastName;
-            _item.Birthday = item.Birthday;
+            _repository.Update(_item);
             return "Item updated";
         }
 
         public string Delete(Guid id)
         {
-            var _item = Items.SingleOrDefault(w => w.Key == id).Value;
+            var _item = _repository.GetById(id);
             if (_item is null)
             {
                 return "Item not found";
             }
-            Items.Remove(id);
+            _repository.Delete(id);
 
             return "Item deleted";
         }

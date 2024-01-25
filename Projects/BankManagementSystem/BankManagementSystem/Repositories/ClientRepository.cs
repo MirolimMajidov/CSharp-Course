@@ -2,26 +2,26 @@
 
 namespace BankManagementSystem.Services
 {
-    public class WorkerRepository : IWorkerRepository
+    public class ClientRepository : IClientRepository
     {
-        Dictionary<Guid, Worker> _items = new Dictionary<Guid, Worker>();
+        Dictionary<Guid, Client> _items = new Dictionary<Guid, Client>();
 
-        public IEnumerable<Worker> GetAll()
+        public IEnumerable<Client> GetAll()
         {
             return _items.Values;
         }
 
-        public Worker GetById(Guid id)
+        public Client GetById(Guid id)
         {
             return _items.SingleOrDefault(w => w.Key == id).Value;
         }
 
-        public bool Create(Worker worker)
+        public bool Create(Client item)
         {
-           return _items.TryAdd(worker.Id, worker);
+           return _items.TryAdd(item.Id, item);
         }
 
-        public bool Update(Worker item)
+        public bool Update(Client item)
         {
             try
             {
