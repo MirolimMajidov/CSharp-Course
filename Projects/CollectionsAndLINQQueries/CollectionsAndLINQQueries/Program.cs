@@ -1,5 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections;
+using System.Net.Http.Headers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CollectionsAndLINQQueries
 {
@@ -7,10 +11,43 @@ namespace CollectionsAndLINQQueries
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Array: ");
-            //var items = new int[] { 1, 20, 5 };
-            //foreach (var item in items)
-            //    Console.WriteLine(item);
+            Console.WriteLine("Array: ");
+
+            var items = new List<User>
+            {
+                new User(){Name = "Sanjar", Age = 10 },
+                new User(){Name = "Doston", Age = 30 },
+                new User(){Name = "Jake", Age = 50 },
+                new User(){Name = "Alisher", Age = 5 },
+                new User(){Name = "Ahmat", Age = 20 },
+            };
+
+            Console.WriteLine("Result: ");
+            Print(items.Where(i => i.Age > 10 && i.Name.ToLower().StartsWith("a")).Select(i => i.Name));
+
+
+            //var item = items.FirstOrDefault(i => i);
+            //Console.WriteLine(item);
+            //Print(items);
+
+            //Console.WriteLine("Result1: ");
+            //var _items = items.Where(i => i > 10);
+            //Print(_items);
+
+            //Console.WriteLine("Result2: ");
+            //items.Add(40);
+            //Print(_items);
+
+            //Console.WriteLine("Result3: ");
+            //items.Add(60);
+            //items.Add(10);
+            //Print(_items);
+
+            void Print(IEnumerable<object> items)
+            {
+                foreach (var item in items)
+                    Console.WriteLine(item);
+            }
 
             //Console.WriteLine("List: ");
             //var item2 = new List<int>() { 1, 20 };
@@ -75,9 +112,9 @@ namespace CollectionsAndLINQQueries
             //    Console.WriteLine(item);
 
 
-            var item2 = new MyList<int>(1, 2, 3);
-            foreach (var item in item2)
-                Console.WriteLine(item);
+            //var item2 = new MyList<int>(1, 2, 3);
+            //foreach (var item in item2)
+            //    Console.WriteLine(item);
 
         }
 
@@ -95,6 +132,12 @@ namespace CollectionsAndLINQQueries
                 foreach (var item in _items)
                     yield return item;
             }
+        }
+
+        public class User
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
         }
     }
 }
