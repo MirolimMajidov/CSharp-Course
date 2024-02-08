@@ -2,9 +2,9 @@
 
 namespace BankManagementSystem.Models;
 
-public class Bonk : BaseEntity
+public class Bank : BaseEntity
 {
-    public Bonk()
+    public Bank()
     {
         Branchs = new();
         Departments = new();

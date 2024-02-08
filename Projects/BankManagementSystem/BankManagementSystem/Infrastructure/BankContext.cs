@@ -1,0 +1,93 @@
+﻿using BankManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace BankManagementSystem.Infrastructure
+{
+    public class BankContext : DbContext
+    {
+        public BankContext(DbContextOptions options):base(options)
+        {      
+        }
+
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Worker> Workers { get; set; }
+        public DbSet<Bank> Banks { get; set; }
+        public DbSet<Branch> Branchs { get; set; }
+        public DbSet<Department> Departments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Ignore<BaseEntity>();
+
+            var bank = new Bank();
+            bank.Name = "Eskhata";
+            bank.Address = "Guliston";
+
+            modelBuilder.Entity<Bank>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+                entity.HasData(bank);
+            });
+
+            var branch1 = new Branch();
+            branch1.Address = "Station";
+            branch1.BankId = bank.Id;
+
+            var branch2 = new Branch();
+            branch2.Address = "Guliston, Glavnoy";
+            branch2.BankId = bank.Id;
+
+            modelBuilder.Entity<Branch>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+                entity.HasData(branch1, branch2);
+            });
+
+            modelBuilder.Entity<Department>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+            });
+
+
+            modelBuilder.Entity<Person>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+            });
+
+            modelBuilder.Entity<Client>(entity =>
+            {
+                entity.HasData(new Client() { 
+                  FirstName = "Nabijon",
+                  LastName = "Azamov",
+                  BranchId  = branch1.Id,
+                });
+
+                entity.HasData(new Client()
+                {
+                    FirstName = "Rahmatillo",
+                    LastName = "Azamov",
+                    BranchId = branch2.Id,
+                });
+            });
+
+            modelBuilder.Entity<Worker>(entity =>
+            {
+                entity.HasData(new Worker()
+                {
+                    FirstName = "Yoqubjon",
+                    LastName = "Ahmedov",
+                    BranchId = branch1.Id,
+                });
+
+                entity.HasData(new Worker()
+                {
+                    FirstName = "Abdurasul",
+                    LastName = "Abdurahmonov",
+                    BranchId = branch2.Id,
+                });
+            });
+
+        }
+    }
+}

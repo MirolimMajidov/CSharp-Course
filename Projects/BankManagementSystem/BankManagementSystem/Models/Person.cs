@@ -1,6 +1,8 @@
-﻿namespace BankManagementSystem.Models
+﻿using System.Text.Json.Serialization;
+
+namespace BankManagementSystem.Models
 {
-    public abstract class Person: BaseEntity, ICanDoWork
+    public abstract class Person : BaseEntity
     {
         public string FirstName { get; set; }
 
@@ -10,9 +12,9 @@
 
         public DateTimeOffset Birthday { get; set; }
 
-        public virtual void DoWork()
-        {
-            Console.WriteLine("I am done " + GetType().Name);
-        }
+        [JsonIgnore]
+        public Branch Branch { get; set; }
+
+        public Guid BranchId { get; set; }
     }
 }
