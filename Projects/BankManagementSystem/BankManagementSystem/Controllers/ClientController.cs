@@ -1,4 +1,5 @@
 ﻿
+using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
 using BankManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,27 +11,35 @@ namespace BankManagementSystem.Controllers;
 public class ClientController : ControllerBase
 {
     readonly IClientService _service;
-    public ClientController(IClientService service)
+    readonly BankContext _context;
+    public ClientController(IClientService service, BankContext context)
     {
         _service = service;
+        _context = context;
     }
 
     [HttpGet("AllItems")]
     public IEnumerable<Client> Get()
     {
-        return _service.GetAll();
+        //return _service.GetAll();
+        return _context.Clients;
     }
 
     [HttpGet("GetItemById")]
     public Client Get(Guid id)
     {
-        return _service.GetById(id);
+        //return _service.GetById(id);
+        return _context.Clients.FirstOrDefault(c => c.Id == id);
     }
 
     [HttpPost("Create")]
-    public string Post([FromBody] Client item)
+    public Client Post([FromBody] Client item)
     {
-        return _service.Create(item);
+        //return _service.Create(item);
+        _context.Clients.Add(item);
+        _context.SaveChanges();
+
+        return item;
     }
 
     [HttpPut("Update")]
