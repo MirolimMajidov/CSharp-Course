@@ -14,12 +14,11 @@ public class Program
         builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer("server=localhost;integrated security=True; database=BankDB;TrustServerCertificate=true;"));
 
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<IWorkerService, WorkerService>();
         builder.Services.AddScoped<IClientService, ClientService>();
-        builder.Services.AddSingleton(typeof(IMemoryRepository<>), typeof(MemoryRepository<>));
+        builder.Services.AddScoped(typeof(ISQLRepository<>), typeof(SQLRepository<>));
 
         var app = builder.Build();
 

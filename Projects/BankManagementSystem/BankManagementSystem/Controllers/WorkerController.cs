@@ -1,5 +1,4 @@
-﻿
-using BankManagementSystem.Models;
+﻿using BankManagementSystem.Models;
 using BankManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 

@@ -21,6 +21,34 @@ namespace BankManagementSystem.Controllers
         [HttpGet]
         public IEnumerable<Branch> Get()
         {
+            using var transuction = _context.Database.BeginTransaction();
+            try
+            {
+                //TODO: Some changes
+                var client = new Client()
+                {
+                    FirstName = "Rahmatillo"
+                };
+                _context.Add(client);
+                _context.SaveChanges();
+
+                var storedClient = _context.Clients.FirstOrDefault(c => c.Id == client.Id);
+                storedClient.LastName = "TODO";
+                _context.SaveChanges();
+
+                //_context.Database.ExecuteSqlRaw("Delete From Client");
+
+                transuction.Commit();
+            }
+            catch (Exception)
+            {
+                transuction.Rollback();
+            }
+
+
+
+
+
             return _context.Branchs;
         }
     }

@@ -4,8 +4,8 @@ namespace BankManagementSystem.Services
 {
     public class ClientService : IClientService
     {
-        IMemoryRepository<Client> _repository;
-        public ClientService(IMemoryRepository<Client> repository)
+        ISQLRepository<Client> _repository;
+        public ClientService(ISQLRepository<Client> repository)
         {
             _repository = repository;
         }
@@ -36,24 +36,28 @@ namespace BankManagementSystem.Services
         public string Update(Guid id, Client item)
         {
             var _item = _repository.GetById(id);
-            if (_item is null)
+            if (_item is not null)
             {
-                return "Item not found";
+                _item.FirstName = item.FirstName;
+                _item.LastName = item.LastName;
+                _item.Birthday = item.Birthday;
+                _item.State = item.State;
+
+                var result = _repository.Update(_item);
+                if (result)
+                    return "Item updated";
             }
-            _repository.Update(_item);
-            return "Item updated";
+
+            return "Item not updated";
         }
 
         public string Delete(Guid id)
         {
-            var _item = _repository.GetById(id);
-            if (_item is null)
-            {
+            var result = _repository.Delete(id);
+            if (result)
+                return "Item deleted";
+            else
                 return "Item not found";
-            }
-            _repository.Delete(id);
-
-            return "Item deleted";
         }
     }
 }
