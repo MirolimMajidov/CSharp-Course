@@ -5,9 +5,8 @@ namespace BankManagementSystem.Infrastructure
 {
     public class BankContext : DbContext
     {
-        public BankContext(DbContextOptions options):base(options)
-        {      
-        }
+        public BankContext(DbContextOptions options) : base(options)
+        {}
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -27,7 +26,18 @@ namespace BankManagementSystem.Infrastructure
             modelBuilder.Entity<Bank>(entity =>
             {
                 entity.HasKey(p => p.Id);
+
+                entity.HasMany(p => p.Departments)
+                .WithOne(s => s.Bank)
+                .HasForeignKey(s => s.BankId)
+                .OnDelete(DeleteBehavior.Cascade);
+
                 entity.HasData(bank);
+            });
+
+            modelBuilder.Entity<Department>(entity =>
+            {
+                entity.HasKey(p => p.Id);
             });
 
             var branch1 = new Branch();
@@ -44,23 +54,21 @@ namespace BankManagementSystem.Infrastructure
                 entity.HasData(branch1, branch2);
             });
 
-            modelBuilder.Entity<Department>(entity =>
-            {
-                entity.HasKey(p => p.Id);
-            });
-
-
             modelBuilder.Entity<Person>(entity =>
             {
                 entity.HasKey(p => p.Id);
+                entity.Property(p => p.FullName2).HasComputedColumnSql("CONCAT(FirstName, ' ', LastName)");
             });
 
             modelBuilder.Entity<Client>(entity =>
             {
-                entity.HasData(new Client() { 
-                  FirstName = "Nabijon",
-                  LastName = "Azamov",
-                  BranchId  = branch1.Id,
+                entity.Property(p => p.FirstName).IsRequired().HasMaxLength(20).HasDefaultValue("Nabijon");
+
+                entity.HasData(new Client()
+                {
+                    FirstName = "Nabijon",
+                    LastName = "Azamov",
+                    BranchId = branch1.Id,
                 });
 
                 entity.HasData(new Client()
