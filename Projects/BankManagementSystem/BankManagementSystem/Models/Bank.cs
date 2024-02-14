@@ -14,8 +14,8 @@ public class Bank : BaseEntity
 
     public string Address { get; set; }
 
-    public List<Branch> Branchs { get; set; }
+    public virtual List<Branch> Branchs { get; set; }
 
     [JsonIgnore]
-    public List<Department> Departments { get; set; }
+    public virtual List<Department> Departments { get; set; }
 }

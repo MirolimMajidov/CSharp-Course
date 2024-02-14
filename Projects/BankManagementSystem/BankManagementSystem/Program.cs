@@ -1,6 +1,7 @@
 using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Proxies;
 
 namespace BankManagementSystem;
 
@@ -11,7 +12,10 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer("server=localhost;integrated security=True; database=BankDB;TrustServerCertificate=true;"));
+        builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer("server=localhost;integrated security=True; database=BankDB;TrustServerCertificate=true;")
+          //.UseLazyLoadingProxies()
+          .LogTo(Console.Write, LogLevel.Information)
+          /*.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)*/);
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +31,28 @@ public class Program
         {
             var context = scope.ServiceProvider.GetRequiredService<BankContext>();
             context.Database.EnsureCreated();
+            //TODO -- NoTracking
+            //var bank = context.Banks.First();
+            //var oldName = bank.Name;
+            //context.Attach(bank);
+            //bank.Name = "Test";
+            ////context.Update(bank);
+            //context.SaveChanges();
+
+            //bank.Name = oldName;
+            //context.SaveChanges();
+
+            //TODO - LazyLoadingProxies
+            //var bank = context.Banks.First();
+            //var name = bank.Name;
+            //var branchs = bank.Branchs;
+
+
+            //TODO: Lazy loading for spesific properties
+            //var branch = context.Branchs.First();
+            //var address = branch.Address;
+            //var bank = branch.Bank;
+            //var bank2 = branch.Bank;
         }
 
         // Configure the HTTP request pipeline.

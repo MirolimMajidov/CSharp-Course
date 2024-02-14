@@ -15,7 +15,7 @@ namespace BankManagementSystem.Models
         public DateTimeOffset Birthday { get; set; }
 
         [JsonIgnore]
-        public Branch Branch { get; set; }
+        public virtual Branch Branch { get; set; }
 
         public Guid BranchId { get; set; }
     }
