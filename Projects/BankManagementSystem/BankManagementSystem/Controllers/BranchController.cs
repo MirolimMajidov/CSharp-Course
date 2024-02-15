@@ -33,7 +33,7 @@ namespace BankManagementSystem.Controllers
                 _context.SaveChanges();
 
                 var storedClient = _context.Clients.FirstOrDefault(c => c.Id == client.Id);
-                storedClient.Name = "TODO";
+                storedClient.LastName = "TODO";
                 _context.SaveChanges();
 
                 //_context.Database.ExecuteSqlRaw("Delete From Client");

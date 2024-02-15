@@ -39,7 +39,7 @@ namespace BankManagementSystem.Services
             if (_item is not null)
             {
                 _item.FirstName = item.FirstName;
-                _item.Name = item.Name;
+                _item.LastName = item.LastName;
                 _item.Birthday = item.Birthday;
                 _item.Role = item.Role;
 
