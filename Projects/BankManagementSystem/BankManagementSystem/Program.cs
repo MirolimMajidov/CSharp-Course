@@ -16,7 +16,7 @@ public class Program
         builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer("server=localhost;integrated security=True; database=BankDB;TrustServerCertificate=true;")
           //.UseLazyLoadingProxies()
           .LogTo(Console.Write, LogLevel.Information)
-          /*.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)*/);
+          .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -33,6 +33,7 @@ public class Program
         {
             var context = scope.ServiceProvider.GetRequiredService<BankContext>();
             context.Database.EnsureCreated();
+
             //TODO -- NoTracking
             //var bank = context.Banks.First();
             //var oldName = bank.Name;
