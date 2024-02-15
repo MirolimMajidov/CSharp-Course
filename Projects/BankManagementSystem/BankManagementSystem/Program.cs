@@ -2,6 +2,7 @@ using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Proxies;
+using System.Text.Json.Serialization;
 
 namespace BankManagementSystem;
 
@@ -17,7 +18,8 @@ public class Program
           .LogTo(Console.Write, LogLevel.Information)
           /*.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)*/);
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<IWorkerService, WorkerService>();

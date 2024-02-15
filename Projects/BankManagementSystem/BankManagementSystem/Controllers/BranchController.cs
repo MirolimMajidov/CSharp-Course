@@ -49,7 +49,7 @@ namespace BankManagementSystem.Controllers
 
 
 
-            return _context.Branchs;
+            return _context.Branchs.Include(b => b.Bank);
         }
     }
 }
