@@ -67,14 +67,14 @@ namespace BankManagementSystem.Infrastructure
                 entity.HasData(new Client()
                 {
                     FirstName = "Nabijon",
-                    LastName = "Azamov",
+                    Name = "Azamov",
                     BranchId = branch1.Id,
                 });
 
                 entity.HasData(new Client()
                 {
                     FirstName = "Rahmatillo",
-                    LastName = "Azamov",
+                    Name = "Azamov",
                     BranchId = branch2.Id,
                 });
             });
@@ -84,14 +84,14 @@ namespace BankManagementSystem.Infrastructure
                 entity.HasData(new Worker()
                 {
                     FirstName = "Yoqubjon",
-                    LastName = "Ahmedov",
+                    Name = "Ahmedov",
                     BranchId = branch1.Id,
                 });
 
                 entity.HasData(new Worker()
                 {
                     FirstName = "Abdurasul",
-                    LastName = "Abdurahmonov",
+                    Name = "Abdurahmonov",
                     BranchId = branch2.Id,
                 });
             });
