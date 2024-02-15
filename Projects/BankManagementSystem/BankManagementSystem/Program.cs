@@ -32,7 +32,7 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<BankContext>();
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             //TODO -- NoTracking
             //var bank = context.Banks.First();
