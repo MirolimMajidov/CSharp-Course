@@ -4,7 +4,7 @@ namespace BankManagementSystem.Services
 {
     public interface IWorkerService
     {
-        IEnumerable<Worker> GetAll();
+        IQueryable<Worker> GetAll();
         Worker GetById(Guid id);
         string Create(Worker worker);
         string Update(Guid id, Worker item);

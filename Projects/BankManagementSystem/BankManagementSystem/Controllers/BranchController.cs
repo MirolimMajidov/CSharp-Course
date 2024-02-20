@@ -21,6 +21,8 @@ namespace BankManagementSystem.Controllers
         [HttpGet]
         public IEnumerable<Branch> Get()
         {
+           //var context =  HttpContext.RequestServices.GetService<BankContext>();
+
             using var transuction = _context.Database.BeginTransaction();
             try
             {

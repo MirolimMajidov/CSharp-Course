@@ -4,7 +4,7 @@ namespace BankManagementSystem.Services
 {
     public interface IClientService
     {
-        IEnumerable<Client> GetAll();
+        IQueryable<Client> GetAll();
 
         /// <summary>
         /// This is for getting item by Id
