@@ -13,11 +13,14 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer("server=localhost;integrated security=True; database=BankDB;TrustServerCertificate=true;")
+        builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
           //.UseLazyLoadingProxies()
-          .LogTo(Console.Write, LogLevel.Information)
+          .LogTo(Console.Write, LogLevel.Error)
           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-
+        builder.Services.AddLogging(l =>
+        {
+            l.AddConsole();//TODO
+        });
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddEndpointsApiExplorer();
@@ -67,8 +70,8 @@ public class Program
 
         app.UseAuthorization();
 
-
         app.MapControllers();
+        app.MapGet("MyMinAPI", (string name) => $"Hello {name}");
 
         app.Run();
 

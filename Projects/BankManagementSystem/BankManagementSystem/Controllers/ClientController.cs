@@ -1,33 +1,56 @@
 ﻿using BankManagementSystem.Models;
 using BankManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Net;
+using Microsoft.Extensions.Logging;
+using Microsoft.Data.SqlClient;
 
 namespace BankManagementSystem.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("MyClient")]
 public class ClientController : ControllerBase
 {
     readonly IClientService _service;
+    readonly ILogger<ClientController> _logger;
 
-    public ClientController(IClientService service)
+    public ClientController(ILogger<ClientController> logger, IClientService service)
     {
         _service = service;
+        _logger = logger;
     }
 
-    [HttpGet("AllItems")]
-    public IEnumerable<Client> Get()
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<Client>), (int)HttpStatusCode.OK)]
+    public IActionResult Get()
     {
-        return _service.GetAll();
+        _logger.LogDebug("API started...");
+        try
+        {
+            throw new Exception("Test exception");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Started Exception...{ex.Message}");
+        }
+
+        _logger.LogInformation("API finished...");
+
+        return Ok(_service.GetAll());
     }
 
-    [HttpGet("GetItemById")]
-    public Client Get(Guid id)
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
+    public IActionResult Get(Guid id)
     {
-        return _service.GetById(id);
+        if (id == Guid.Empty)
+            return BadRequest();
+
+        return Ok(_service.GetById(id));
     }
 
-    [HttpPost("Create")]
+    [HttpPost]
     public Client Post([FromBody] Client item)
     {
         _service.Create(item);
