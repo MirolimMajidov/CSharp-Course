@@ -31,7 +31,7 @@ public class Program
         //Calls migration to create or update the database
         using (var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<BankContext>();
+            var context = scope.ServiceProvider.GetService<BankContext>();
             context.Database.Migrate();
 
             //TODO -- NoTracking

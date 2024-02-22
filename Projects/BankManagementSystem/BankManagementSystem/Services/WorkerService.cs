@@ -10,7 +10,7 @@ namespace BankManagementSystem.Services
             _repository = repository;
         }
 
-        public IEnumerable<Worker> GetAll()
+        public IQueryable<Worker> GetAll()
         {
             return _repository.GetAll();
         }
