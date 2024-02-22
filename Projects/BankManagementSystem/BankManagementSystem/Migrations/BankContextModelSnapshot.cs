@@ -41,7 +41,7 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e7ed3dda-76b7-497f-8d7e-a396e51d3583"),
+                            Id = new Guid("c6882053-954c-4601-ba49-0b9717533d1b"),
                             Address = "Guliston",
                             Name = "Eskhata"
                         });
@@ -68,15 +68,15 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1cfbe8d8-edbf-4152-9aac-7106d481d08e"),
+                            Id = new Guid("dee36bdd-da93-4d3e-9a2a-074ac5180a2c"),
                             Address = "Station",
-                            BankId = new Guid("e7ed3dda-76b7-497f-8d7e-a396e51d3583")
+                            BankId = new Guid("c6882053-954c-4601-ba49-0b9717533d1b")
                         },
                         new
                         {
-                            Id = new Guid("8aed7495-7e2f-49db-b0ac-ca0d415cb4aa"),
+                            Id = new Guid("979750fe-1a23-4998-a8b5-e5540ffe9ab9"),
                             Address = "Guliston, Glavnoy",
-                            BankId = new Guid("e7ed3dda-76b7-497f-8d7e-a396e51d3583")
+                            BankId = new Guid("c6882053-954c-4601-ba49-0b9717533d1b")
                         });
                 });
 
@@ -143,31 +143,6 @@ namespace BankManagementSystem.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("BankManagementSystem.Models.Transaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Currency")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("Transactions");
-                });
-
             modelBuilder.Entity("BankManagementSystem.Models.Client", b =>
                 {
                     b.HasBaseType("BankManagementSystem.Models.Person");
@@ -182,18 +157,18 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0a8bb99b-49a4-47ac-bc90-869b61031788"),
+                            Id = new Guid("867393e1-3923-4d09-82ed-47de9bf40b8c"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("1cfbe8d8-edbf-4152-9aac-7106d481d08e"),
+                            BranchId = new Guid("dee36bdd-da93-4d3e-9a2a-074ac5180a2c"),
                             FirstName = "Nabijon",
                             LastName = "Azamov",
                             State = 0
                         },
                         new
                         {
-                            Id = new Guid("3f52dd9a-2ef9-4ce4-ac53-24d35b172f38"),
+                            Id = new Guid("e8a9355f-0b4f-4849-a6a1-0482e09c9cb8"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("8aed7495-7e2f-49db-b0ac-ca0d415cb4aa"),
+                            BranchId = new Guid("979750fe-1a23-4998-a8b5-e5540ffe9ab9"),
                             FirstName = "Rahmatillo",
                             LastName = "Azamov",
                             State = 0
@@ -214,17 +189,17 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6b2cbb85-259f-44b6-aa98-7d1ea03b09b3"),
+                            Id = new Guid("71aa1032-26c6-4211-a190-93135335bb43"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("1cfbe8d8-edbf-4152-9aac-7106d481d08e"),
+                            BranchId = new Guid("dee36bdd-da93-4d3e-9a2a-074ac5180a2c"),
                             FirstName = "Yoqubjon",
                             LastName = "Ahmedov"
                         },
                         new
                         {
-                            Id = new Guid("b2170c92-ec18-47f9-b2ec-93a8b20ecbe9"),
+                            Id = new Guid("b9f20fd8-61e5-4376-a8c2-7e5b2c23861c"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("8aed7495-7e2f-49db-b0ac-ca0d415cb4aa"),
+                            BranchId = new Guid("979750fe-1a23-4998-a8b5-e5540ffe9ab9"),
                             FirstName = "Abdurasul",
                             LastName = "Abdurahmonov"
                         });
@@ -250,17 +225,6 @@ namespace BankManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Bank");
-                });
-
-            modelBuilder.Entity("BankManagementSystem.Models.Transaction", b =>
-                {
-                    b.HasOne("BankManagementSystem.Models.Client", "Client")
-                        .WithMany("Transactions")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("BankManagementSystem.Models.Client", b =>
@@ -297,11 +261,6 @@ namespace BankManagementSystem.Migrations
                     b.Navigation("Clients");
 
                     b.Navigation("Workers");
-                });
-
-            modelBuilder.Entity("BankManagementSystem.Models.Client", b =>
-                {
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }
