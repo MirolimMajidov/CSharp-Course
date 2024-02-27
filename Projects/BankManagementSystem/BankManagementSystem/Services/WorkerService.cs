@@ -15,6 +15,11 @@ namespace BankManagementSystem.Services
             return _repository.GetAll();
         }
 
+        public IQueryable<Worker> GetMan()
+        {
+            return _repository.GetAll();
+        }
+
         public Worker GetById(Guid id)
         {
             return _repository.GetById(id);

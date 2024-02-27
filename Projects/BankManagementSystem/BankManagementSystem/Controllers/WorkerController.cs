@@ -6,41 +6,20 @@ namespace BankManagementSystem.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class WorkerController : ControllerBase
+public class WorkerController : BaseController<Worker>
 {
-    readonly IWorkerService _service;
-    public WorkerController(IWorkerService service)
+    public WorkerController(ILogger<WorkerController> logger, IWorkerService service) : base(logger, service)
     {
-        _service = service;
     }
 
-    [HttpGet("AllItems")]
-    public IEnumerable<Worker> Get()
+    [HttpGet("GetMan")]
+    public IEnumerable<Worker> GetMan()
     {
-        return _service.GetAll();
+        return (_service as IWorkerService).GetMan();
     }
 
-    [HttpGet("GetItemById")]
-    public Worker Get(Guid id)
+    public override Worker Get(Guid id)
     {
-        return _service.GetById(id);
-    }
-
-    [HttpPost("Create")]
-    public string Post([FromBody] Worker item)
-    {
-        return _service.Create(item);
-    }
-
-    [HttpPut("Update")]
-    public string Put([FromQuery] Guid id, [FromBody] Worker item)
-    {
-        return _service.Update(id, item);
-    }
-
-    [HttpDelete("Delete")]
-    public string Delete([FromQuery] Guid id)
-    {
-        return _service.Delete(id);
+        return base.Get(id);
     }
 }

@@ -19,7 +19,8 @@ public class Program
           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         builder.Services.AddLogging(l =>
         {
-            l.AddConsole();//TODO
+            //l.ClearProviders();
+            //l.AddConsole();
         });
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
