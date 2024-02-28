@@ -5,36 +5,34 @@ namespace BankManagementSystem.Models;
 
 public class Branch : BaseEntity
 {
-    public Branch()
+    //private ILazyLoader _lazyLoader;
+    public Branch(/*ILazyLoader lazyLoader*/)
     {
-    }
-
-    private ILazyLoader _lazyLoader;
-    public Branch(ILazyLoader lazyLoader)
-    {
-        _lazyLoader = lazyLoader;
+        //_lazyLoader = lazyLoader;
         Workers = new();
         Clients = new();
     }
 
     public string Address { get; set; }
 
-    private Bank _bank;
-    public virtual Bank Bank
-    {
-        get
-        { 
-            if (_bank == null)
-            {
-                _lazyLoader.Load(this, nameof(Bank));
-            }
-            return _bank;
-        }
-        set
-        {
-            _bank = value;
-        }
-    }
+    public virtual Bank Bank { get; set; }
+    //TODO
+    //private Bank _bank;
+    //public virtual Bank Bank
+    //{
+    //    get
+    //    {
+    //        if (_bank == null)
+    //        {
+    //            _lazyLoader.Load(this, nameof(Bank));
+    //        }
+    //        return _bank;
+    //    }
+    //    set
+    //    {
+    //        _bank = value;
+    //    }
+    //}
 
     public Guid BankId { get; set; }
 

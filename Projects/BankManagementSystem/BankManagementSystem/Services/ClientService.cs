@@ -1,4 +1,5 @@
 ﻿using BankManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankManagementSystem.Services
 {
@@ -10,9 +11,14 @@ namespace BankManagementSystem.Services
             _repository = repository;
         }
 
-        public IEnumerable<Client> GetAll()
+        public IQueryable<Client> GetAll()
         {
             return _repository.GetAll();
+        }
+
+        public IQueryable<Client> GetAll(int skip, int take)
+        {
+            return _repository.GetAll().Skip(skip).Take(take);
         }
 
         public Client GetById(Guid id)

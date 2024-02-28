@@ -5,8 +5,19 @@ namespace BankManagementSystem.Infrastructure
 {
     public class BankContext : DbContext
     {
+        //public BankContext( )
+        //{ }
+
         public BankContext(DbContextOptions options) : base(options)
-        {}
+        { }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer("");
+        //    }
+        //}
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -14,6 +25,7 @@ namespace BankManagementSystem.Infrastructure
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Branch> Branchs { get; set; }
         public DbSet<Department> Departments { get; set; }
+        //public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +51,11 @@ namespace BankManagementSystem.Infrastructure
             {
                 entity.HasKey(p => p.Id);
             });
+
+            //modelBuilder.Entity<Transaction>(entity =>
+            //{
+            //    entity.HasKey(p => p.Id);
+            //});
 
             var branch1 = new Branch();
             branch1.Address = "Station";

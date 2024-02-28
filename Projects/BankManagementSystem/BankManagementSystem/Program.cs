@@ -13,11 +13,15 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer("server=localhost;integrated security=True; database=BankDB;TrustServerCertificate=true;")
+        builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
           //.UseLazyLoadingProxies()
-          .LogTo(Console.Write, LogLevel.Information)
-          /*.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)*/);
-
+          .LogTo(Console.Write, LogLevel.Error)
+          .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+        builder.Services.AddLogging(l =>
+        {
+            //l.ClearProviders();
+            //l.AddConsole();
+        });
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddEndpointsApiExplorer();
@@ -31,8 +35,9 @@ public class Program
         //Calls migration to create or update the database
         using (var scope = app.Services.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<BankContext>();
-            context.Database.EnsureCreated();
+            var context = scope.ServiceProvider.GetService<BankContext>();
+            context.Database.Migrate();
+
             //TODO -- NoTracking
             //var bank = context.Banks.First();
             //var oldName = bank.Name;
@@ -66,8 +71,8 @@ public class Program
 
         app.UseAuthorization();
 
-
         app.MapControllers();
+        app.MapGet("MyMinAPI", (string name) => $"Hello {name}");
 
         app.Run();
 

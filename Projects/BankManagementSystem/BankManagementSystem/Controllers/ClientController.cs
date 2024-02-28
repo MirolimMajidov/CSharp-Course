@@ -1,48 +1,18 @@
 ﻿using BankManagementSystem.Models;
 using BankManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Net;
+using Microsoft.Extensions.Logging;
+using Microsoft.Data.SqlClient;
 
 namespace BankManagementSystem.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ClientController : ControllerBase
+public class ClientController : BaseController<Client>
 {
-    readonly IClientService _service;
-
-    public ClientController(IClientService service)
+    public ClientController(ILogger<ClientController> logger, IClientService service) : base(logger, service)
     {
-        _service = service;
-    }
-
-    [HttpGet("AllItems")]
-    public IEnumerable<Client> Get()
-    {
-        return _service.GetAll();
-    }
-
-    [HttpGet("GetItemById")]
-    public Client Get(Guid id)
-    {
-        return _service.GetById(id);
-    }
-
-    [HttpPost("Create")]
-    public Client Post([FromBody] Client item)
-    {
-        _service.Create(item);
-        return item;
-    }
-
-    [HttpPut("Update")]
-    public string Put([FromQuery] Guid id, [FromBody] Client item)
-    {
-        return _service.Update(id, item);
-    }
-
-    [HttpDelete("Delete")]
-    public string Delete([FromQuery] Guid id)
-    {
-        return _service.Delete(id);
     }
 }

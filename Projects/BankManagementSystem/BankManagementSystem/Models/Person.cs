@@ -8,6 +8,8 @@ namespace BankManagementSystem.Models
 
         public string LastName { get; set; }
 
+        public string Address { get; set; }
+
         public string FullName => $"{FirstName} {LastName}";
         
         public string FullName2 { get; }
