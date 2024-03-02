@@ -15,7 +15,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
           //.UseLazyLoadingProxies()
-          .LogTo(Console.Write, LogLevel.Error)
+          //.LogTo(Console.Write, LogLevel.Error)
           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         builder.Services.AddLogging(l =>
         {

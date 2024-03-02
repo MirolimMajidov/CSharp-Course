@@ -2,6 +2,7 @@ using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace BankManagementSystem.Controllers
 {
@@ -19,10 +20,28 @@ namespace BankManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Branch> Get()
+        public IEnumerable<Branch> Get(CancellationToken cancellationToken)
         {
-           //var context =  HttpContext.RequestServices.GetService<BankContext>();
+            //var counter = 0;
+            //while (true)
+            //{
+            //    if (cancellationToken.IsCancellationRequested)
+            //    {
+            //        Console.WriteLine($"Canceled {counter}");
+            //        break;
+            //    }
+            //    counter++;
+            //    Thread.Sleep(TimeSpan.FromSeconds(1));
 
+            //    Console.WriteLine($"Working {counter}");
+            //    if (counter >= 10)
+            //    {
+            //        Console.WriteLine("Done");
+            //        break;
+            //    }
+            //}
+
+            var context = HttpContext.RequestServices.GetService<BankContext>();
             using var transuction = _context.Database.BeginTransaction();
             try
             {
@@ -34,7 +53,7 @@ namespace BankManagementSystem.Controllers
                 _context.Add(client);
                 _context.SaveChanges();
 
-                var storedClient = _context.Clients.FirstOrDefault(c => c.Id == client.Id);
+                var storedClient = _context.Clients.FirstOrDefaultAsync(c => c.Id == client.Id, cancellationToken).GetAwaiter().GetResult();
                 storedClient.LastName = "TODO";
                 _context.SaveChanges();
 
@@ -47,11 +66,9 @@ namespace BankManagementSystem.Controllers
                 transuction.Rollback();
             }
 
-
-
-
-
             return _context.Branchs.Include(b => b.Bank);
+
+            return Enumerable.Empty<Branch>();
         }
     }
 }
