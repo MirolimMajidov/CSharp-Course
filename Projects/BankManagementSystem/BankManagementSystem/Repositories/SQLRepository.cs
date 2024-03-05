@@ -1,5 +1,6 @@
 ﻿using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankManagementSystem.Services
 {
@@ -16,9 +17,9 @@ namespace BankManagementSystem.Services
             return _context.Set<T>();
         }
 
-        public T GetById(Guid id)
+        public async Task<T> GetById(Guid id)
         {
-            return _context.Set<T>().SingleOrDefault(w => w.Id == id);
+            return await _context.Set<T>().SingleOrDefaultAsync(w => w.Id == id);
         }
 
         public bool Create(T item)
@@ -62,7 +63,7 @@ namespace BankManagementSystem.Services
                 }
             }
             catch
-            {}
+            { }
 
             return false;
         }

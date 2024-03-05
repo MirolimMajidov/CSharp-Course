@@ -11,7 +11,7 @@ namespace BankManagementSystem.Services
         /// </summary>
         /// <param name="id">Id of item</param>
         /// <returns>retruns item if found otherwase null</returns>
-        TEntity GetById(Guid id);
+        Task<TEntity> GetById(Guid id);
 
         string Create(TEntity worker);
 

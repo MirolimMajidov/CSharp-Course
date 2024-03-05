@@ -17,9 +17,4 @@ public class WorkerController : BaseController<Worker>
     {
         return (_service as IWorkerService).GetMan();
     }
-
-    public override Worker Get(Guid id)
-    {
-        return base.Get(id);
-    }
 }

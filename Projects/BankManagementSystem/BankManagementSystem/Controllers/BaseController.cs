@@ -21,9 +21,9 @@ public abstract class BaseController<TEntity> : ControllerBase where TEntity : B
     }
 
     [HttpGet("GetItemById")]
-    public virtual TEntity Get(Guid id)
+    public virtual async Task<TEntity> Get(Guid id)
     {
-        return _service.GetById(id);
+        return await _service.GetById(id);
     }
 
     [HttpPost("Create")]

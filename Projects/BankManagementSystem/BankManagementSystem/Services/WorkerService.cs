@@ -20,9 +20,9 @@ namespace BankManagementSystem.Services
             return _repository.GetAll();
         }
 
-        public Worker GetById(Guid id)
+        public async Task<Worker> GetById(Guid id)
         {
-            return _repository.GetById(id);
+            return await _repository.GetById(id);
         }
 
         public string Create(Worker item)
@@ -40,7 +40,7 @@ namespace BankManagementSystem.Services
 
         public string Update(Guid id, Worker item)
         {
-            var _item = _repository.GetById(id);
+            var _item = _repository.GetById(id).GetAwaiter().GetResult();
             if (_item is not null)
             {
                 _item.FirstName = item.FirstName;
