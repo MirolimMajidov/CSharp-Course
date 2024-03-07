@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
+using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Multithreading
 {
@@ -10,6 +9,22 @@ namespace Multithreading
         //stateless and stateful
         static void Main(string[] args)
         {
+            //Version1
+            var provider = new MyDataProvider();
+            //asdjkhasdukjhasdjkhasdjkhasd
+            provider.Dispose();
+            provider.Dispose();
+
+            //Version2
+            using var provider2 = new MyDataProvider();
+
+
+            //Version3
+            using (var provider3 = new MyDataProvider())
+            {
+
+            }
+
             Console.WriteLine("Started");
             var watch = Stopwatch.StartNew();
             //Method();
@@ -19,7 +34,7 @@ namespace Multithreading
             Console.WriteLine($"Before starting task: {balance}");
             try
             {
-                var mutex= new Mutex(true, "Test");
+                var mutex = new Mutex(true, "Test");
                 mutex.WaitOne();
 
                 mutex.ReleaseMutex();
@@ -246,6 +261,60 @@ namespace Multithreading
 
             Console.WriteLine("Thread {0} releases the semaphore.", num);
             Console.WriteLine("Thread {0} previous semaphore count: {1}", num, _pool.Release());
+        }
+    }
+
+
+    public class MyDataProvider : IDisposable
+    {
+        SqlConnection connection;
+        Program myData;
+
+        public MyDataProvider()
+        {
+            connection = new SqlConnection("");
+            myData = new Program();
+        }
+
+        public void Open()
+        {
+            //connection.Open();
+        }
+
+        public void Close()
+        {
+            //connection.Close();
+        }
+
+        private bool _disposedValue;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                    myData = null;
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                connection.Dispose();
+                connection = null;
+
+                _disposedValue = true;
+            }
+        }
+
+        ~MyDataProvider()
+        {
+            Dispose(false);
         }
     }
 }
