@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Proxies;
 using System.Text.Json.Serialization;
 using BankManagementSystem.Filters;
+using BankManagementSystem.Middlewares;
 
 namespace BankManagementSystem;
 
 public class Program
 {
+    public const string AppKey = "TestKey";
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -20,11 +22,7 @@ public class Program
           //.UseLazyLoadingProxies()
           //.LogTo(Console.Write, LogLevel.Error)
           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-        builder.Services.AddLogging(l =>
-        {
-            //l.ClearProviders();
-            //l.AddConsole();
-        });
+        builder.Services.AddLogging();
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddEndpointsApiExplorer();
@@ -32,7 +30,7 @@ public class Program
         builder.Services.AddScoped<IWorkerService, WorkerService>();
         builder.Services.AddScoped<IClientService, ClientService>();
         builder.Services.AddScoped(typeof(ISQLRepository<>), typeof(SQLRepository<>));
-        builder.Services.AddMvc(options => options.Filters.Add(typeof(GlobalExceptionFilter)));
+        //builder.Services.AddMvc(options => options.Filters.Add(typeof(GlobalExceptionFilter)));
 
         var app = builder.Build();
 
@@ -41,29 +39,6 @@ public class Program
         {
             var context = scope.ServiceProvider.GetService<BankContext>();
             context.Database.Migrate();
-
-            //TODO -- NoTracking
-            //var bank = context.Banks.First();
-            //var oldName = bank.Name;
-            //context.Attach(bank);
-            //bank.Name = "Test";
-            ////context.Update(bank);
-            //context.SaveChanges();
-
-            //bank.Name = oldName;
-            //context.SaveChanges();
-
-            //TODO - LazyLoadingProxies
-            //var bank = context.Banks.First();
-            //var name = bank.Name;
-            //var branchs = bank.Branchs;
-
-
-            //TODO: Lazy loading for spesific properties
-            //var branch = context.Branchs.First();
-            //var address = branch.Address;
-            //var bank = branch.Bank;
-            //var bank2 = branch.Bank;
         }
 
         // Configure the HTTP request pipeline.
@@ -71,7 +46,11 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-        }
+        };
+
+        app.UseMiddleware<GlobalExceptionMiddleware>();
+        app.UseMiddleware<ApplicationKeyMiddleware>();
+        app.UseMiddleware<EndpointListenerMiddleware>();
 
         app.UseAuthorization();
 

@@ -22,26 +22,6 @@ namespace BankManagementSystem.Controllers
         [HttpGet]
         public IEnumerable<Branch> Get(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            //var counter = 0;
-            //while (true)
-            //{
-            //    if (cancellationToken.IsCancellationRequested)
-            //    {
-            //        Console.WriteLine($"Canceled {counter}");
-            //        break;
-            //    }
-            //    counter++;
-            //    Thread.Sleep(TimeSpan.FromSeconds(1));
-
-            //    Console.WriteLine($"Working {counter}");
-            //    if (counter >= 10)
-            //    {
-            //        Console.WriteLine("Done");
-            //        break;
-            //    }
-            //}
-
             var context = HttpContext.RequestServices.GetService<BankContext>();
             using var transuction = _context.Database.BeginTransaction();
             try
