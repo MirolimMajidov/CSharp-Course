@@ -22,6 +22,7 @@ namespace BankManagementSystem.Controllers
         [HttpGet]
         public IEnumerable<Branch> Get(CancellationToken cancellationToken)
         {
+            throw new NotImplementedException();
             //var counter = 0;
             //while (true)
             //{

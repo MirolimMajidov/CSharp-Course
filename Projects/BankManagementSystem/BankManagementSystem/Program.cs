@@ -1,8 +1,11 @@
 using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Services;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Proxies;
 using System.Text.Json.Serialization;
+using BankManagementSystem.Filters;
 
 namespace BankManagementSystem;
 
@@ -29,6 +32,7 @@ public class Program
         builder.Services.AddScoped<IWorkerService, WorkerService>();
         builder.Services.AddScoped<IClientService, ClientService>();
         builder.Services.AddScoped(typeof(ISQLRepository<>), typeof(SQLRepository<>));
+        builder.Services.AddMvc(options => options.Filters.Add(typeof(GlobalExceptionFilter)));
 
         var app = builder.Build();
 
