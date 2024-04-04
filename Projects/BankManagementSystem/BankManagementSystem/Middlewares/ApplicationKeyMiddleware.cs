@@ -15,14 +15,14 @@ namespace BankManagementSystem.Middlewares
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            if (httpContext.Request.Headers.TryGetValue("AppKey", out StringValues key) && key.FirstOrDefault() == Program.AppKey)
-            {
+            //if (httpContext.Request.Headers.TryGetValue("AppKey", out StringValues key) && key.FirstOrDefault() == Program.AppKey)
+            //{
                 await _next(httpContext);
-            }
-            else
-            {
-                httpContext.Response.StatusCode = 404;
-            }
+            //}
+            //else
+            //{
+            //    httpContext.Response.StatusCode = 404;
+            //}
         }
     }
 }

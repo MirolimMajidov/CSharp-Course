@@ -2,5 +2,5 @@
 
 public class Worker : Person
 {
-    public string Role { get; set; }
+    public string Responsibility { get; set; }
 }

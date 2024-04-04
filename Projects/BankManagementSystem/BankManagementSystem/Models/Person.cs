@@ -12,7 +12,13 @@ namespace BankManagementSystem.Models
 
         public string FullName => $"{FirstName} {LastName}";
         
-        public string FullName2 { get; }
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+
+        public string RefreshToken { get; set; }
+
+        public string Role { get; set; }
 
         public DateTimeOffset Birthday { get; set; }
 
@@ -20,5 +26,7 @@ namespace BankManagementSystem.Models
         public virtual Branch Branch { get; set; }
 
         public Guid BranchId { get; set; }
+
+        public bool IsBlocked { get; }
     }
 }

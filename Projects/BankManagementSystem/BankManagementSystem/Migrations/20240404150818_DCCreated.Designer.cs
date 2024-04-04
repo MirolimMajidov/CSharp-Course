@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankManagementSystem.Migrations
 {
     [DbContext(typeof(BankContext))]
-    [Migration("20240222133426_createdDB")]
-    partial class createdDB
+    [Migration("20240404150818_DCCreated")]
+    partial class DCCreated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c6882053-954c-4601-ba49-0b9717533d1b"),
+                            Id = new Guid("32242e9f-ed57-4873-813c-eff9d187d4ea"),
                             Address = "Guliston",
                             Name = "Eskhata"
                         });
@@ -71,15 +71,15 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dee36bdd-da93-4d3e-9a2a-074ac5180a2c"),
+                            Id = new Guid("6110fbbd-3d7f-41ad-af72-8dae883c5923"),
                             Address = "Station",
-                            BankId = new Guid("c6882053-954c-4601-ba49-0b9717533d1b")
+                            BankId = new Guid("32242e9f-ed57-4873-813c-eff9d187d4ea")
                         },
                         new
                         {
-                            Id = new Guid("979750fe-1a23-4998-a8b5-e5540ffe9ab9"),
+                            Id = new Guid("fd2cd3c0-4b22-445c-9e17-82a10a5dfe62"),
                             Address = "Guliston, Glavnoy",
-                            BankId = new Guid("c6882053-954c-4601-ba49-0b9717533d1b")
+                            BankId = new Guid("32242e9f-ed57-4873-813c-eff9d187d4ea")
                         });
                 });
 
@@ -129,15 +129,26 @@ namespace BankManagementSystem.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasDefaultValue("Nabijon");
 
-                    b.Property<string>("FullName2")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComputedColumnSql("CONCAT(FirstName, ' ', LastName)");
-
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique()
+                        .HasFilter("[Username] IS NOT NULL");
 
                     b.ToTable("Persons");
 
@@ -160,18 +171,18 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("867393e1-3923-4d09-82ed-47de9bf40b8c"),
+                            Id = new Guid("e12dd2fb-0e62-47cc-a300-5b0ff88f9bb6"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("dee36bdd-da93-4d3e-9a2a-074ac5180a2c"),
+                            BranchId = new Guid("6110fbbd-3d7f-41ad-af72-8dae883c5923"),
                             FirstName = "Nabijon",
                             LastName = "Azamov",
                             State = 0
                         },
                         new
                         {
-                            Id = new Guid("e8a9355f-0b4f-4849-a6a1-0482e09c9cb8"),
+                            Id = new Guid("14b056e0-f2a7-44a2-ac1e-ba979d8111ef"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("979750fe-1a23-4998-a8b5-e5540ffe9ab9"),
+                            BranchId = new Guid("fd2cd3c0-4b22-445c-9e17-82a10a5dfe62"),
                             FirstName = "Rahmatillo",
                             LastName = "Azamov",
                             State = 0
@@ -182,7 +193,7 @@ namespace BankManagementSystem.Migrations
                 {
                     b.HasBaseType("BankManagementSystem.Models.Person");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Responsibility")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasIndex("BranchId");
@@ -192,17 +203,17 @@ namespace BankManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("71aa1032-26c6-4211-a190-93135335bb43"),
+                            Id = new Guid("6f89ad4a-0a7b-490c-94bf-a95160e1cd35"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("dee36bdd-da93-4d3e-9a2a-074ac5180a2c"),
+                            BranchId = new Guid("6110fbbd-3d7f-41ad-af72-8dae883c5923"),
                             FirstName = "Yoqubjon",
                             LastName = "Ahmedov"
                         },
                         new
                         {
-                            Id = new Guid("b9f20fd8-61e5-4376-a8c2-7e5b2c23861c"),
+                            Id = new Guid("a7b3edcd-bce9-412e-a9bc-c792c20c1105"),
                             Birthday = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            BranchId = new Guid("979750fe-1a23-4998-a8b5-e5540ffe9ab9"),
+                            BranchId = new Guid("fd2cd3c0-4b22-445c-9e17-82a10a5dfe62"),
                             FirstName = "Abdurasul",
                             LastName = "Abdurahmonov"
                         });

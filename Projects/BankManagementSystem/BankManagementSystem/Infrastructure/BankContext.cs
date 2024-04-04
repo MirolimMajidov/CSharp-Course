@@ -74,7 +74,7 @@ namespace BankManagementSystem.Infrastructure
             modelBuilder.Entity<Person>(entity =>
             {
                 entity.HasKey(p => p.Id);
-                entity.Property(p => p.FullName2).HasComputedColumnSql("CONCAT(FirstName, ' ', LastName)");
+                entity.HasIndex(p => p.Username).IsUnique();
             });
 
             modelBuilder.Entity<Client>(entity =>
