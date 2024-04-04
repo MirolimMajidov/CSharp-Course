@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using BankManagementSystem.Filters;
 using BankManagementSystem.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MyUser.Models.Helpers;
 
 namespace BankManagementSystem;
 
@@ -18,10 +19,8 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        //Auth
-        builder.Services.AddAuthorization();
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options => { });
+        //Adding custom Auth
+        builder.Services.AddMyAuth();
 
         // Add services to the container.
         builder.Services.AddDbContext<BankContext>(con => con.UseSqlServer(builder.Configuration["ConnectionString"])
@@ -33,10 +32,9 @@ public class Program
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddScoped<AuthService>();
-        builder.Services.AddScoped<IWorkerService, WorkerService>();
-        builder.Services.AddScoped<IClientService, ClientService>();
-        builder.Services.AddScoped(typeof(ISQLRepository<>), typeof(SQLRepository<>));
+
+        //Adding custom services
+        builder.Services.AddMyServices();
         //builder.Services.AddMvc(options => options.Filters.Add(typeof(GlobalExceptionFilter)));
 
         var app = builder.Build();

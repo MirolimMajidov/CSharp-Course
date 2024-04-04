@@ -9,7 +9,7 @@ namespace MyUser.Models.Helpers;
 /// </summary>
 public static class ServiceCollectionExtensions
 {
-    public static void AddAuthorizations(this IServiceCollection service)
+    public static void AddMyAuth(this IServiceCollection service)
     {
         service.AddAuthorization();
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -21,16 +21,19 @@ public static class ServiceCollectionExtensions
                     ValidateIssuer = true,
                     // строка, представляющая издателя
                     ValidIssuer = AuthOptions.ISSUER,
+
                     // будет ли валидироваться потребитель токена
                     ValidateAudience = true,
                     // установка потребителя токена
                     ValidAudience = AuthOptions.AUDIENCE,
+
                     // будет ли валидироваться время существования
                     ValidateLifetime = true,
-                    // установка ключа безопасности
-                    IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+
                     // валидация ключа безопасности
                     ValidateIssuerSigningKey = true,
+                    // установка ключа безопасности
+                    IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                 };
             });
     }

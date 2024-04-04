@@ -47,7 +47,9 @@ namespace BankManagementSystem.Services
                 _item.FirstName = item.FirstName;
                 _item.LastName = item.LastName;
                 _item.Birthday = item.Birthday;
-                _item.State = item.State;
+                _item.Username = item.Username;
+                _item.Password = item.Password;
+                _item.Role = item.Role;
 
                 var result = _repository.Update(_item);
                 if (result)

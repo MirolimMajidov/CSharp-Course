@@ -86,6 +86,9 @@ namespace BankManagementSystem.Infrastructure
                     FirstName = "Nabijon",
                     LastName = "Azamov",
                     BranchId = branch1.Id,
+                    Role = "Admin",
+                    Username = "Nabijon",
+                    Password = "123"
                 });
 
                 entity.HasData(new Client()
