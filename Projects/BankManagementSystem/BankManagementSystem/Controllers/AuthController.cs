@@ -14,7 +14,7 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    [HttpPost("Login")]
+    [HttpPost("Token")]
     public async Task<IActionResult> LogIn(string username, string password)
     {
         try

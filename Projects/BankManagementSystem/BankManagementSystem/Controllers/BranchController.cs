@@ -1,13 +1,14 @@
 using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
 
 namespace BankManagementSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class BranchController : ControllerBase
     {
         private readonly ILogger<BranchController> _logger;
@@ -19,37 +20,18 @@ namespace BankManagementSystem.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IEnumerable<Branch> Get(CancellationToken cancellationToken)
+        [HttpGet("AllBranchs")]
+        [Authorize(Roles = "admin")]
+        public IEnumerable<Branch> AllBranchs(CancellationToken cancellationToken)
         {
-            var context = HttpContext.RequestServices.GetService<BankContext>();
-            using var transuction = _context.Database.BeginTransaction();
-            try
-            {
-                //TODO: Some changes
-                var client = new Client()
-                {
-                    FirstName = "Rahmatillo"
-                };
-                _context.Add(client);
-                _context.SaveChanges();
+            return _context.Branchs;
+        }
 
-                var storedClient = _context.Clients.FirstOrDefaultAsync(c => c.Id == client.Id, cancellationToken).GetAwaiter().GetResult();
-                storedClient.LastName = "TODO";
-                _context.SaveChanges();
-
-                //_context.Database.ExecuteSqlRaw("Delete From Client");
-
-                transuction.Commit();
-            }
-            catch (Exception)
-            {
-                transuction.Rollback();
-            }
-
-            return _context.Branchs.Include(b => b.Bank);
-
-            return Enumerable.Empty<Branch>();
+        [HttpGet("GetBranchById")]
+        [Authorize(Roles = "editor")]
+        public Branch Get(Guid guid)
+        {
+            return _context.Branchs.FirstOrDefault(b => b.Id == guid);
         }
     }
 }

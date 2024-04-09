@@ -86,7 +86,7 @@ namespace BankManagementSystem.Infrastructure
                     FirstName = "Nabijon",
                     LastName = "Azamov",
                     BranchId = branch1.Id,
-                    Role = "Admin",
+                    Role = "admin",
                     Username = "Nabijon",
                     Password = "123"
                 });
@@ -96,6 +96,9 @@ namespace BankManagementSystem.Infrastructure
                     FirstName = "Rahmatillo",
                     LastName = "Azamov",
                     BranchId = branch2.Id,
+                    Role = "editor",
+                    Username = "Tillo",
+                    Password = "123"
                 });
             });
 

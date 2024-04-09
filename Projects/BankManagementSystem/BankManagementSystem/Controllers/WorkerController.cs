@@ -14,6 +14,7 @@ public class WorkerController : BaseController<Worker>
     {
     }
 
+    [AllowAnonymous]
     [HttpGet("GetMan")]
     public IEnumerable<Worker> GetMan()
     {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BankManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class DCCreated : Migration
+    public partial class DB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -96,35 +96,36 @@ namespace BankManagementSystem.Migrations
             migrationBuilder.InsertData(
                 table: "Banks",
                 columns: new[] { "Id", "Address", "Name" },
-                values: new object[] { new Guid("32242e9f-ed57-4873-813c-eff9d187d4ea"), "Guliston", "Eskhata" });
+                values: new object[] { new Guid("cc85f9d6-baba-486b-b7f7-4a45f087fbe6"), "Guliston", "Eskhata" });
 
             migrationBuilder.InsertData(
                 table: "Branchs",
                 columns: new[] { "Id", "Address", "BankId" },
                 values: new object[,]
                 {
-                    { new Guid("6110fbbd-3d7f-41ad-af72-8dae883c5923"), "Station", new Guid("32242e9f-ed57-4873-813c-eff9d187d4ea") },
-                    { new Guid("fd2cd3c0-4b22-445c-9e17-82a10a5dfe62"), "Guliston, Glavnoy", new Guid("32242e9f-ed57-4873-813c-eff9d187d4ea") }
+                    { new Guid("9514e7df-fcd3-4a25-bd3d-1bf86e7bfc21"), "Station", new Guid("cc85f9d6-baba-486b-b7f7-4a45f087fbe6") },
+                    { new Guid("b14e3433-e7e5-4f02-88b1-d7f3adbd6be6"), "Guliston, Glavnoy", new Guid("cc85f9d6-baba-486b-b7f7-4a45f087fbe6") }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Persons",
-                columns: new[] { "Id", "Address", "Birthday", "BranchId", "Discriminator", "FirstName", "LastName", "Password", "RefreshToken", "Role", "State", "Username" },
-                values: new object[] { new Guid("14b056e0-f2a7-44a2-ac1e-ba979d8111ef"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("fd2cd3c0-4b22-445c-9e17-82a10a5dfe62"), "Client", "Rahmatillo", "Azamov", null, null, null, 0, null });
 
             migrationBuilder.InsertData(
                 table: "Persons",
                 columns: new[] { "Id", "Address", "Birthday", "BranchId", "Discriminator", "FirstName", "LastName", "Password", "RefreshToken", "Responsibility", "Role", "Username" },
-                values: new object[,]
-                {
-                    { new Guid("6f89ad4a-0a7b-490c-94bf-a95160e1cd35"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("6110fbbd-3d7f-41ad-af72-8dae883c5923"), "Worker", "Yoqubjon", "Ahmedov", null, null, null, null, null },
-                    { new Guid("a7b3edcd-bce9-412e-a9bc-c792c20c1105"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("fd2cd3c0-4b22-445c-9e17-82a10a5dfe62"), "Worker", "Abdurasul", "Abdurahmonov", null, null, null, null, null }
-                });
+                values: new object[] { new Guid("41f8dc75-e648-4e64-a066-6aff4dc1ffa5"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("9514e7df-fcd3-4a25-bd3d-1bf86e7bfc21"), "Worker", "Yoqubjon", "Ahmedov", null, null, null, null, null });
 
             migrationBuilder.InsertData(
                 table: "Persons",
                 columns: new[] { "Id", "Address", "Birthday", "BranchId", "Discriminator", "FirstName", "LastName", "Password", "RefreshToken", "Role", "State", "Username" },
-                values: new object[] { new Guid("e12dd2fb-0e62-47cc-a300-5b0ff88f9bb6"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("6110fbbd-3d7f-41ad-af72-8dae883c5923"), "Client", "Nabijon", "Azamov", null, null, null, 0, null });
+                values: new object[] { new Guid("b11070bc-892a-45c0-a352-49e952466825"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("b14e3433-e7e5-4f02-88b1-d7f3adbd6be6"), "Client", "Rahmatillo", "Azamov", "123", null, "editor", 0, "Tillo" });
+
+            migrationBuilder.InsertData(
+                table: "Persons",
+                columns: new[] { "Id", "Address", "Birthday", "BranchId", "Discriminator", "FirstName", "LastName", "Password", "RefreshToken", "Responsibility", "Role", "Username" },
+                values: new object[] { new Guid("b5842ab3-d780-47bb-937c-45eac371bbdc"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("b14e3433-e7e5-4f02-88b1-d7f3adbd6be6"), "Worker", "Abdurasul", "Abdurahmonov", null, null, null, null, null });
+
+            migrationBuilder.InsertData(
+                table: "Persons",
+                columns: new[] { "Id", "Address", "Birthday", "BranchId", "Discriminator", "FirstName", "LastName", "Password", "RefreshToken", "Role", "State", "Username" },
+                values: new object[] { new Guid("ddcc95c9-790b-40ef-a380-7bb659667dcd"), null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), new Guid("9514e7df-fcd3-4a25-bd3d-1bf86e7bfc21"), "Client", "Nabijon", "Azamov", "123", null, "admin", 0, "Nabijon" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Branchs_BankId",

@@ -9,6 +9,7 @@ using BankManagementSystem.Filters;
 using BankManagementSystem.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MyUser.Models.Helpers;
+using Microsoft.OpenApi.Models;
 
 namespace BankManagementSystem;
 
@@ -31,7 +32,30 @@ public class Program
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank application APIs", Version = "v1" });
+
+            // Add the JWT Bearer authentication scheme
+            var securityScheme = new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Description = "JWT Authorization header using the Bearer scheme.",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            };
+            c.AddSecurityDefinition("Bearer", securityScheme);
+
+            // Use the JWT Bearer authentication scheme globally
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { securityScheme, new List<string>() }
+            });
+        });
 
         //Adding custom services
         builder.Services.AddMyServices();
@@ -57,6 +81,7 @@ public class Program
         app.UseMiddleware<ApplicationKeyMiddleware>();
         app.UseMiddleware<EndpointListenerMiddleware>();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

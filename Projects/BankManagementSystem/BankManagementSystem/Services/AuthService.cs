@@ -57,6 +57,7 @@ namespace BankManagementSystem.Services
             var refreshToken = Guid.NewGuid().ToString();
 
             user.RefreshToken = refreshToken;
+            _context.Update(user);
             await _context.SaveChangesAsync();
 
             return new TokenInfo { AccessToken = accessToken, RefreshToken = refreshToken };
