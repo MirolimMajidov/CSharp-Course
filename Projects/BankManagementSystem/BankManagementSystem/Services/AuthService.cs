@@ -39,11 +39,15 @@ namespace BankManagementSystem.Services
             if (user.IsBlocked)
                 throw new ArgumentException("User does not have access to login.");
 
+            var userRoles = new string[] { user.Role };
+
             var claims = new List<Claim> {
                 new Claim("Id", user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.FullName),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Name, user.FullName)
             };
+
+            foreach (var userRole in userRoles)
+                new Claim(ClaimTypes.Role, userRole);
 
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(

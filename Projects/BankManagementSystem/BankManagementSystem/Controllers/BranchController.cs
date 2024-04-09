@@ -21,7 +21,8 @@ namespace BankManagementSystem.Controllers
         }
 
         [HttpGet("AllBranchs")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
+        [Authorize(policy: "AdminOnly")]
         public IEnumerable<Branch> AllBranchs(CancellationToken cancellationToken)
         {
             return _context.Branchs;
