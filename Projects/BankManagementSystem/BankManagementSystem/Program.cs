@@ -10,6 +10,7 @@ using BankManagementSystem.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MyUser.Models.Helpers;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BankManagementSystem;
 
@@ -32,6 +33,8 @@ public class Program
         builder.Services.AddControllers()
             .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddEndpointsApiExplorer();
+
+        builder.Services.AddAutoMapper(typeof(Program));
 
         builder.Services.AddSwaggerGen(c =>
         {

@@ -10,6 +10,6 @@
 
         public CardStatus Status { get; set; } = CardStatus.JustOrdered;
 
-        public double Balance { get; set; }
+        public double TotalBalance { get; set; }
     }
 }

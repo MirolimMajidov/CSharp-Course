@@ -1,3 +1,4 @@
+using AutoMapper;
 using BankManagementSystem.Extensions;
 using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
@@ -12,11 +13,13 @@ namespace BankManagementSystem.Controllers
     {
         private readonly ILogger<CardController> _logger;
         private readonly BankContext _context;
+        private readonly IMapper _mapper;
 
-        public CardController(ILogger<CardController> logger, BankContext context)
+        public CardController(ILogger<CardController> logger, BankContext context, IMapper mapper)
         {
             _logger = logger;
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("CardsByHolderId")]
@@ -24,20 +27,7 @@ namespace BankManagementSystem.Controllers
         {
             var cards = _context.Cards.Where(c => c.HolderId == holder.HolderId);
 
-            var result = new List<ResponseCard>();
-            foreach (var card in cards)
-            {
-                result.Add(new ResponseCard
-                {
-                    Id = card.Id,
-                    Balance = card.Balance,
-                    IssuerId = card.IssuerId,
-                    Status = card.Status,
-                    Type = card.Type
-                });
-            }
-
-            return result;
+            return _mapper.Map<List<ResponseCard>>(cards);
         }
 
         [HttpPost("Order")]
@@ -45,14 +35,10 @@ namespace BankManagementSystem.Controllers
         public string OrderCard(RequestOrderCard requestOrder)
         {
             var workerId = User.GetCurrectUserId();
-            var card = new Card
-            {
-                HolderId = requestOrder.HolderId,
-                Type = requestOrder.Type,
-                Status = CardStatus.JustOrdered,
-                Balance = 5,
-                IssuerId = workerId
-            };
+            var card = _mapper.Map<Card>(requestOrder);
+            card.Balance = 5;
+            card.IssuerId = workerId;
+
             _context.Add(card);
             _context.SaveChanges();
 
