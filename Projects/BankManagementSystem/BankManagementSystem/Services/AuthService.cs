@@ -47,7 +47,7 @@ namespace BankManagementSystem.Services
             };
 
             foreach (var userRole in userRoles)
-                new Claim(ClaimTypes.Role, userRole);
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
 
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(
