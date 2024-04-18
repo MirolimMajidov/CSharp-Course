@@ -2,7 +2,9 @@ using AutoMapper;
 using BankManagementSystem.Extensions;
 using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
+using BankManagementSystem.Validations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankManagementSystem.Controllers
@@ -34,6 +36,15 @@ namespace BankManagementSystem.Controllers
         [Authorize]
         public string OrderCard(RequestOrderCard requestOrder)
         {
+            var validator = new CardValidation();
+            var result = validator.Validate(requestOrder);
+
+            if (!result.IsValid)
+            {
+                var message = string.Join("; ", result.Errors);
+                return message;
+            }
+
             var workerId = User.GetCurrectUserId();
             var card = _mapper.Map<Card>(requestOrder);
             card.Balance = 5;

@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MyUser.Models.Helpers;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Hosting;
+using BankManagementSystem.Validations;
+using FluentValidation;
 
 namespace BankManagementSystem;
 
@@ -35,6 +37,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddAutoMapper(typeof(Program));
+        builder.Services.AddValidatorsFromAssemblyContaining<CardValidation>();
 
         builder.Services.AddSwaggerGen(c =>
         {
