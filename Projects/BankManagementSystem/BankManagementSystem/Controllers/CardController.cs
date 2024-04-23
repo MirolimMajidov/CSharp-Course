@@ -34,7 +34,7 @@ namespace BankManagementSystem.Controllers
 
         [HttpPost("Order")]
         [Authorize]
-        public string OrderCard(RequestOrderCard requestOrder)
+        public ActionResult<string> OrderCard(RequestOrderCard requestOrder)
         {
             var validator = new CardValidation();
             var result = validator.Validate(requestOrder);
@@ -42,7 +42,7 @@ namespace BankManagementSystem.Controllers
             if (!result.IsValid)
             {
                 var message = string.Join("; ", result.Errors);
-                return message;
+                return BadRequest(message);
             }
 
             var workerId = User.GetCurrectUserId();
@@ -53,7 +53,7 @@ namespace BankManagementSystem.Controllers
             _context.Add(card);
             _context.SaveChanges();
 
-            return "Card is ordered";
+            return Created();
         }
     }
 }

@@ -21,17 +21,17 @@ namespace BankManagementSystem.Controllers
         }
 
         [HttpGet("AllBranchs")]
-        [Authorize(policy: "AdminOnly")]
-        public IEnumerable<Branch> AllBranchs(CancellationToken cancellationToken)
+        //[Authorize(policy: "AdminOnly")]
+        public ActionResult<IEnumerable<Branch>> AllBranchs(CancellationToken cancellationToken)
         {
-            return _context.Branchs;
+            return Ok(_context.Branchs);
         }
 
         [HttpGet("GetBranchById")]
         [Authorize(Roles = "editor")]
-        public Branch Get(Guid guid)
+        public ActionResult<Branch> Get(Guid guid)
         {
-            return _context.Branchs.FirstOrDefault(b => b.Id == guid);
+            return Ok(_context.Branchs.FirstOrDefault(b => b.Id == guid));
         }
     }
 }
