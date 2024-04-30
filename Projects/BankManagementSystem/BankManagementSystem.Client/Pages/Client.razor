@@ -1,0 +1,46 @@
+﻿@page "/client"
+@inject HttpClient _http
+@using BankManagementSystem.Client.DTO
+@using System.Net.Http.Json
+
+<PageTitle>Client</PageTitle>
+
+<h1>Clients</h1>
+
+@if (_allClients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in _allClients)
+            {
+                <tr>
+                    <td>@client.Id.ToString()</td>
+                    <td>@client.FirstName</td>
+                    <td>@client.LastName</td>
+                    <td>@client.Age</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ClientDTO[]? _allClients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _allClients = await _http.GetFromJsonAsync<ClientDTO[]>("client/AllClients");
+    }
+}

@@ -69,6 +69,17 @@ public class Program
         builder.Services.AddMyServices();
         //builder.Services.AddMvc(options => options.Filters.Add(typeof(GlobalExceptionFilter)));
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+        });
+
         var app = builder.Build();
 
         //Calls migration to create or update the database
@@ -85,6 +96,7 @@ public class Program
             app.UseSwaggerUI();
         };
 
+        app.UseCors("AllowAll");
         app.UseMiddleware<GlobalExceptionMiddleware>();
         app.UseMiddleware<ApplicationKeyMiddleware>();
         app.UseMiddleware<EndpointListenerMiddleware>();
