@@ -1,13 +1,13 @@
-﻿@page "/client"
+﻿@page "/branch"
 @inject HttpClient _http
 @using BankManagementSystem.Client.DTO
 @using System.Net.Http.Json
 
-<PageTitle>Client</PageTitle>
+<PageTitle>Branchs</PageTitle>
 
-<h1>Clients</h1>
+<h1>Branchs</h1>
 
-@if (_allClients == null)
+@if (_allItems == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -17,19 +17,15 @@ else
         <thead>
             <tr>
                 <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Age</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var client in _allClients)
+            @foreach (var client in _allItems)
             {
                 <tr>
                     <td>@client.Id.ToString()</td>
-                    <td>@client.FirstName</td>
-                    <td>@client.LastName</td>
-                    <td>@client.Age</td>
+                    <td>@client.Address</td>
                 </tr>
             }
         </tbody>
@@ -37,10 +33,10 @@ else
 }
 
 @code {
-    private ClientDTO[]? _allClients;
+    private BranchDTO[]? _allItems;
 
     protected override async Task OnInitializedAsync()
     {
-        _allClients = await _http.GetFromJsonAsync<ClientDTO[]>("client/AllClients");
+        _allItems = await _http.GetFromJsonAsync<BranchDTO[]>("branch/AllBranchs");
     }
 }

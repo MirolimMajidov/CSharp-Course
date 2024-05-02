@@ -8,7 +8,7 @@ namespace BankManagementSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    //[Authorize]
     public class BranchController : ControllerBase
     {
         private readonly ILogger<BranchController> _logger;

@@ -1,0 +1,48 @@
+﻿@page "/client/add"
+@inject HttpClient _http
+@using BankManagementSystem.Client.DTO
+@using System.Net.Http.Json
+@inject NavigationManager _navigationManager
+
+<PageTitle>Add User</PageTitle>
+
+<form>
+    <div class="form-group">
+        <label for="name">First name:</label>
+        <input id="name" class="form-control" @bind="@client.FirstName" required />
+    </div>
+    <div class="form-group">
+        <label for="name">Last name:</label>
+        <input id="name" class="form-control" @bind="@client.LastName" required />
+    </div>
+    <div class="form-group">
+        <label for="email">Age:</label>
+        <input id="email" class="form-control" @bind="@client.Age" required />
+    </div>
+    <div class="form-group">
+        <label for="department">Branch:</label>
+        <select id="department" class="form-control" @bind="@client.BranchId" required>
+            @foreach (var department in _branchs)
+            {
+                <option value="@department.Id">@department.Address</option>
+            }
+        </select>
+    </div>
+    <button type="button" class="btn btn-primary" @onclick="AddClient">Add client</button>
+</form>
+
+@code {
+    ClientDTO client = new ClientDTO(); 
+    BranchDTO[] _branchs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _branchs = await _http.GetFromJsonAsync<BranchDTO[]>("branch/AllBranchs");
+    }
+
+    private async Task AddClient()
+    {
+        var createClient = await _http.PostAsJsonAsync<ClientDTO>("client", client);
+        _navigationManager.NavigateTo("/clients");
+    }
+}

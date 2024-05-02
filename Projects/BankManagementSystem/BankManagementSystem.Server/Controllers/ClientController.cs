@@ -44,7 +44,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<Client>> UpdateClient(Guid id, UpdateClientCommand command)
+    public async Task<ActionResult<string>> UpdateClient(Guid id, UpdateClientCommand command)
     {
         command.Id = id;
         var result = await _mediator.Send(command);

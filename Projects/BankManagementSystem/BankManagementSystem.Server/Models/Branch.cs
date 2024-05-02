@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using System.Text.Json.Serialization;
 
 namespace BankManagementSystem.Models;
 
@@ -36,7 +37,9 @@ public class Branch : BaseEntity
 
     public Guid BankId { get; set; }
 
+    [JsonIgnore]
     public virtual List<Worker> Workers { get; set; }
 
+    [JsonIgnore]
     public virtual List<Client> Clients { get; set; }
 }

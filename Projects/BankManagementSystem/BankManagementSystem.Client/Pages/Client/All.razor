@@ -1,0 +1,92 @@
+﻿@page "/client"
+@inject HttpClient _http
+@using BankManagementSystem.Client.DTO
+@using System.Net.Http.Json
+@inject NavigationManager _navigationManager
+
+<PageTitle>Clients</PageTitle>
+
+<h1>Clients</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <a href='/client/add' class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Add User
+        </a>
+    </div>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search client by last name or first name"
+               @bind="SearchString" @bind:event="oninput" @onkeyup="FilterClients" />
+    </div>
+</div>
+@if (_allClients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in _filteredClients)
+            {
+                <tr>
+                    <td>@client.Id.ToString()</td>
+                    <td>@client.FirstName</td>
+                    <td>@client.LastName</td>
+                    <td>@client.Age</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditItem(client.Id)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteItem(client.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    protected string SearchString { get; set; } = string.Empty;
+    private ClientDTO[]? _allClients;
+    private ClientDTO[]? _filteredClients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _allClients = await _http.GetFromJsonAsync<ClientDTO[]>("client/AllClients");
+        SearchString = string.Empty;
+        FilterClients();
+    }
+
+    private async Task DeleteItem(Guid id)
+    {
+        await _http.DeleteAsync($"client?Id={id}");
+        await OnInitializedAsync(); // Refresh the list
+    }
+
+    private void EditItem(Guid id)
+    {
+        _navigationManager.NavigateTo($"/client/edit/{id}", true);
+    }
+
+    protected void FilterClients()
+    {
+        if (!string.IsNullOrEmpty(SearchString))
+        {
+            _filteredClients = _allClients.Where(x => x.FirstName.Contains(SearchString) || x.LastName.Contains(SearchString))
+                .ToArray();
+        }
+        else
+        {
+            _filteredClients = _allClients;
+        }
+    }
+}

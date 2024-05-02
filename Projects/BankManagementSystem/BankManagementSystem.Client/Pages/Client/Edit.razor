@@ -1,0 +1,45 @@
+﻿@page "/client/edit/{Id}"
+@inject HttpClient _http
+@using BankManagementSystem.Client.DTO
+@using System.Net.Http.Json
+@inject NavigationManager _navigationManager
+
+<PageTitle>Edit User</PageTitle>
+
+<h3>Edit User</h3>
+@if (client == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <form>
+        <div class="form-group">
+            <label for="name">First name:</label>
+            <input id="name" class="form-control" @bind="@client.FirstName" required />
+        </div>
+        <div class="form-group">
+            <label for="name">Last name:</label>
+            <input id="name" class="form-control" @bind="@client.LastName" required />
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="EditClient">Edit client</button>
+    </form>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    ClientDTO client;
+
+    protected override async Task OnInitializedAsync()
+    {
+        client = await _http.GetFromJsonAsync<ClientDTO>($"client/{Id}");
+    }
+
+    private async Task EditClient()
+    {
+        var createClient = await _http.PutAsJsonAsync<ClientDTO>($"client/{Id}", client);
+        _navigationManager.NavigateTo("/client");
+    }
+}
