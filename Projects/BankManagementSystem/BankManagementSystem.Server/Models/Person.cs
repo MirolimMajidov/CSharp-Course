@@ -24,11 +24,6 @@ namespace BankManagementSystem.Models
 
         public DateTimeOffset Birthday { get; set; }
 
-        [JsonIgnore]
-        public virtual Branch Branch { get; set; }
-
-        public Guid BranchId { get; set; }
-
         public bool IsBlocked { get; }
     }
 }

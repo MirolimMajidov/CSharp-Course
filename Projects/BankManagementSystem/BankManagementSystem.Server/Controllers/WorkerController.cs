@@ -7,7 +7,6 @@ namespace BankManagementSystem.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
 public class WorkerController : BaseController<Worker>
 {
     public WorkerController(ILogger<WorkerController> logger, IWorkerService service) : base(logger, service)
@@ -19,5 +18,12 @@ public class WorkerController : BaseController<Worker>
     public IEnumerable<Worker> GetMan()
     {
         return (_service as IWorkerService).GetMan();
+    }
+
+    [AllowAnonymous]
+    [HttpPost("Create")]
+    public override string Post([FromBody] Worker item)
+    {
+        return base.Post(item);
     }
 }

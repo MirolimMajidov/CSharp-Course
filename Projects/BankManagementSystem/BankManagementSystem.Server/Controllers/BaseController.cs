@@ -1,12 +1,11 @@
 ﻿using BankManagementSystem.Models;
 using BankManagementSystem.Services;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankManagementSystem.Controllers;
 
-//[Authorize]
+[Authorize]
 public abstract class BaseController<TEntity> : ControllerBase where TEntity : BaseEntity
 {
     protected readonly IBaseService<TEntity> _service;
