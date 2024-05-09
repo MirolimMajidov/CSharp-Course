@@ -1,6 +1,6 @@
-using BankManagementSystem.Client.Services;
-using Microsoft.AspNetCore.Components.Authorization;
+using BankManagementSystem.Client.Sevices;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace BankManagementSystem.Client
@@ -11,12 +11,14 @@ namespace BankManagementSystem.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
-            //builder.RootComponents.Add<HeadOutlet>("head::after");
+            builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddAuthorizationCore();
-            builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+            var serverURL = new Uri("http://localhost:5002");
+            //builder.Services.AddTransient(sp => new HttpClient { BaseAddress = serverURL });
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5002") });
+            builder.Services.AddHttpClient("ServerAPI", client => client.BaseAddress = serverURL);
+            builder.Services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("ServerAPI"));
+            builder.Services.AddScoped<IHttpAPIProvider, HttpAPIProvider>();
 
             await builder.Build().RunAsync();
         }

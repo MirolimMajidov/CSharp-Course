@@ -53,7 +53,7 @@ public class ClientController : ControllerBase
         command.Id = id;
         var (result, message) = await _mediator.Send(command);
         if(result)
-            Ok(message);
+            return Ok(message);
 
         return BadRequest(message);
     }
@@ -63,7 +63,7 @@ public class ClientController : ControllerBase
     {
         var (result, message) = await _mediator.Send(deleteClient);
         if (result)
-            Ok(message);
+            return Ok(message);
 
         return BadRequest(message);
     }

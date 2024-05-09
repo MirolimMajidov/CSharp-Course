@@ -1,5 +1,5 @@
 ﻿@page "/client/add"
-@inject HttpClient _http
+@inject IHttpAPIProvider _apiProvider
 @using BankManagementSystem.Client.DTO
 @using System.Net.Http.Json
 @inject NavigationManager _navigationManager
@@ -32,17 +32,17 @@
 </form>
 
 @code {
-    ClientDTO client = new ClientDTO(); 
+    ClientDTO client = new ClientDTO();
     BranchDTO[] _branchs;
 
     protected override async Task OnInitializedAsync()
     {
-        _branchs = await _http.GetFromJsonAsync<BranchDTO[]>("branch/AllBranchs");
+        (bool isSuccessStatusCode, _branchs, string message) = await _apiProvider.GetAsync<BranchDTO[]>("branch/AllBranches");
     }
 
     private async Task AddClient()
     {
-        var createClient = await _http.PostAsJsonAsync<ClientDTO>("client", client);
-        _navigationManager.NavigateTo("/clients");
+        (bool isSuccessStatusCode, ClientDTO createClient, string message) = await _apiProvider.PostAsync<ClientDTO>("client", client);
+        _navigationManager.NavigateTo("/client");
     }
 }

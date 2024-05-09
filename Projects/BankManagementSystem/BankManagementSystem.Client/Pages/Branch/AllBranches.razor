@@ -1,11 +1,11 @@
 ﻿@page "/branch"
-@inject HttpClient _http
+@inject IHttpAPIProvider _apiProvider
 @using BankManagementSystem.Client.DTO
 @using System.Net.Http.Json
 
-<PageTitle>Branchs</PageTitle>
+<PageTitle>Branches</PageTitle>
 
-<h1>Branchs</h1>
+<h1>Branches</h1>
 
 @if (_allItems == null)
 {
@@ -33,10 +33,10 @@ else
 }
 
 @code {
-    private BranchDTO[]? _allItems;
+    private BranchDTO[] _allItems;
 
     protected override async Task OnInitializedAsync()
     {
-        _allItems = await _http.GetFromJsonAsync<BranchDTO[]>("branch/AllBranchs");
+        (bool isSuccessStatusCode, _allItems, string message) = await _apiProvider.GetAsync<BranchDTO[]>("branch/AllBranches");
     }
 }

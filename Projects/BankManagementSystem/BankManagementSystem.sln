@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankManagementSystem.Server", "BankManagementSystem.Server\BankManagementSystem.Server.csproj", "{88EEE29A-07B6-4DFC-9B15-8D589CCCAB34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankManagementSystem.Client", "BankManagementSystem.Client\BankManagementSystem.Client.csproj", "{7C63641B-382A-49B1-AF20-B12C777FBEB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankManagementSystem.Client", "BankManagementSystem.Client\BankManagementSystem.Client.csproj", "{7C63641B-382A-49B1-AF20-B12C777FBEB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,5 @@
 ﻿@page "/client/edit/{Id}"
-@inject HttpClient _http
+@inject IHttpAPIProvider _apiProvider
 @using BankManagementSystem.Client.DTO
 @using System.Net.Http.Json
 @inject NavigationManager _navigationManager
@@ -34,12 +34,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        client = await _http.GetFromJsonAsync<ClientDTO>($"client/{Id}");
+        (bool isSuccessStatusCode, client, string message) = await _apiProvider.GetAsync<ClientDTO>($"client/{Id}");
     }
 
     private async Task EditClient()
     {
-        var createClient = await _http.PutAsJsonAsync<ClientDTO>($"client/{Id}", client);
+        (bool isSuccessStatusCode, string createClient, string message) = await _apiProvider.PutAsync<string>($"client/{Id}", client);
         _navigationManager.NavigateTo("/client");
     }
 }

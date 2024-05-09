@@ -19,9 +19,9 @@ namespace BankManagementSystem.Controllers
             _context = context;
         }
 
-        [HttpGet("AllBranchs")]
+        [HttpGet("AllBranches")]
         //[Authorize(policy: "AdminOnly")]
-        public ActionResult<IEnumerable<Branch>> AllBranchs(CancellationToken cancellationToken)
+        public ActionResult<IEnumerable<Branch>> AllBranches(CancellationToken cancellationToken)
         {
             return Ok(_context.Branchs);
         }

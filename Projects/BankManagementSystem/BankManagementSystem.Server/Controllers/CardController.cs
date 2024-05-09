@@ -2,6 +2,7 @@ using AutoMapper;
 using BankManagementSystem.Extensions;
 using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
+using BankManagementSystem.Services;
 using BankManagementSystem.Validations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,20 +14,20 @@ namespace BankManagementSystem.Controllers
     public class CardController : ControllerBase
     {
         private readonly ILogger<CardController> _logger;
-        private readonly BankContext _context;
+        private readonly ISQLRepository<Card> _repository;
         private readonly IMapper _mapper;
 
-        public CardController(ILogger<CardController> logger, BankContext context, IMapper mapper)
+        public CardController(ILogger<CardController> logger, ISQLRepository<Card> repository, IMapper mapper)
         {
             _logger = logger;
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
         [HttpGet("CardsByHolderId")]
         public ActionResult<IEnumerable<ResponseCard>> CardsByHolderId(RequestCardsByHolderId holder)
         {
-            var cards = _context.Cards.Where(c => c.HolderId == holder.HolderId);
+            var cards = _repository.GetAll().Where(c => c.HolderId == holder.HolderId);
 
             return _mapper.Map<List<ResponseCard>>(cards);
         }
@@ -49,8 +50,9 @@ namespace BankManagementSystem.Controllers
             card.Balance = 5;
             card.IssuerId = workerId;
 
-            _context.Add(card);
-            _context.SaveChanges();
+            var createdCard = _repository.TryCreate(card, out string _message);
+            if (createdCard is null)
+                return BadRequest(_message);
 
             return Created();
         }

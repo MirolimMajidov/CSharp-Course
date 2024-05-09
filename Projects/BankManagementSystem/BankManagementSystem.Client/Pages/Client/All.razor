@@ -1,5 +1,5 @@
 ﻿@page "/client"
-@inject HttpClient _http
+@inject IHttpAPIProvider _apiProvider
 @using BankManagementSystem.Client.DTO
 @using System.Net.Http.Json
 @inject NavigationManager _navigationManager
@@ -61,14 +61,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _allClients = await _http.GetFromJsonAsync<ClientDTO[]>("client/AllClients");
+        (bool isSuccessStatusCode, _allClients, string message) = await _apiProvider.GetAsync<ClientDTO[]>("client/AllClients");
         SearchString = string.Empty;
         FilterClients();
     }
 
     private async Task DeleteItem(Guid id)
     {
-        await _http.DeleteAsync($"client?Id={id}");
+        (bool isSuccessStatusCode, _, string message) = await _apiProvider.DeleteAsync<string>($"client?Id={id}");
         await OnInitializedAsync(); // Refresh the list
     }
 

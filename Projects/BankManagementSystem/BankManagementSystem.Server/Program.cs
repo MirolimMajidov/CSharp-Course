@@ -71,7 +71,7 @@ public class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll",
+            options.AddDefaultPolicy(
                 builder =>
                 {
                     builder.AllowAnyOrigin()
@@ -96,7 +96,7 @@ public class Program
             app.UseSwaggerUI();
         };
 
-        app.UseCors("AllowAll");
+        app.UseCors();
         app.UseMiddleware<GlobalExceptionMiddleware>();
         app.UseMiddleware<ApplicationKeyMiddleware>();
         app.UseMiddleware<EndpointListenerMiddleware>();
