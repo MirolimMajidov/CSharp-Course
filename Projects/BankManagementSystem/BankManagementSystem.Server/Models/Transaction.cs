@@ -2,8 +2,8 @@
 {
     public class Transaction : BaseEntity
     {
-        public Currency Currency { get; set; }
-        public TransactionType Type { get; set; }
+        public Currency Currency { get; set; } = Currency.USD;
+        public TransactionType Type { get; set; } = TransactionType.Income;
 
         public double Amount { get; set; }
         public Client Client { get; set; }

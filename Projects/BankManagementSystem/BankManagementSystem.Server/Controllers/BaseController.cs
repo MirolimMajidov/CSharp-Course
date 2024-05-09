@@ -2,6 +2,7 @@
 using BankManagementSystem.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace BankManagementSystem.Controllers;
 
@@ -17,32 +18,48 @@ public abstract class BaseController<TEntity> : ControllerBase where TEntity : B
     }
 
     [HttpGet("AllItems")]
-    public virtual IEnumerable<TEntity> Get()
+    public virtual ActionResult<IEnumerable<TEntity>> Get()
     {
-        return _service.GetAll();
+        return Ok(_service.GetAll());
     }
 
     [HttpGet("GetItemById")]
-    public virtual async Task<TEntity> Get(Guid id)
+    public virtual async Task<ActionResult<TEntity>> Get(Guid id)
     {
-        return await _service.GetById(id);
+        var item = await _service.GetById(id);
+        if (item is null)
+            return NotFound();
+
+        return Ok(item);
     }
 
     [HttpPost("Create")]
-    public virtual string Post([FromBody] TEntity item)
+    public virtual ActionResult<string> Post([FromBody] TEntity item)
     {
-        return _service.Create(item);
+        var createdItem = _service.TryCreate(item, out string message);
+        if (createdItem is null)
+            return BadRequest(message);
+
+        return Ok(createdItem);
     }
 
     [HttpPut("Update")]
-    public virtual string Put([FromQuery] Guid id, [FromBody] TEntity item)
+    public virtual ActionResult<string> Put([FromQuery] Guid id, [FromBody] TEntity item)
     {
-        return _service.Update(id, item);
+        var updated = _service.TryUpdate(id, item, out string message);
+        if (!updated)
+            return BadRequest(message);
+
+        return Ok("Successfully updated");
     }
 
     [HttpDelete("Delete")]
-    public virtual string Delete([FromQuery] Guid id)
+    public virtual ActionResult<string> Delete([FromQuery] Guid id)
     {
-        return _service.Delete(id);
+        var deleted = _service.TryDelete(id, out string message);
+        if (!deleted)
+            return BadRequest(message);
+
+        return Ok("Successfully deleted");
     }
 }

@@ -22,7 +22,7 @@ public class WorkerController : BaseController<Worker>
 
     [AllowAnonymous]
     [HttpPost("Create")]
-    public override string Post([FromBody] Worker item)
+    public override ActionResult<string> Post([FromBody] Worker item)
     {
         return base.Post(item);
     }

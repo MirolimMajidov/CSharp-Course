@@ -10,13 +10,13 @@ namespace BankManagementSystem.Services
         /// This is for getting item by Id
         /// </summary>
         /// <param name="id">Id of item</param>
-        /// <returns>retruns item if found otherwase null</returns>
+        /// <returns>returns item if found otherwise null</returns>
         Task<TEntity> GetById(Guid id);
 
-        string Create(TEntity worker);
+        TEntity TryCreate(TEntity worker, out string message);
 
-        string Update(Guid id, TEntity item);
+        bool TryUpdate(Guid id, TEntity item, out string message);
 
-        string Delete(Guid id);
+        bool TryDelete(Guid id, out string message);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BankManagementSystem.Models;
+using BankManagementSystem.Server.Infrastructure;
 
 namespace BankManagementSystem.Services
 {
@@ -6,8 +7,9 @@ namespace BankManagementSystem.Services
     {
         IQueryable<T> GetAll();
         Task<T> GetById(Guid id);
-        bool Create(T item);
-        bool Update(T item);
-        bool Delete(Guid id);
+        T TryCreate(T item, out string message);
+        bool TryUpdate(T item, out string message);
+        bool TryDelete(Guid id, out string message);
+        IBankContext GetContext();
     }
 }

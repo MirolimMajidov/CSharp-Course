@@ -5,7 +5,7 @@ using BankManagementSystem.Services;
 using MediatR;
 
 namespace BankManagementSystem.CQRS.Handlers;
-public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, string>
+public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, (bool, string)>
 {
     private IClientService _service;
     private readonly IMapper _mapper;
@@ -16,11 +16,10 @@ public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, s
         _mapper = mapper;
     }
 
-    public Task<string> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
+    public Task<(bool, string)> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
         var client = _mapper.Map<Client>(request);
-        var result = _service.Update(request.Id, client);
-
-        return Task.FromResult(result);
+        var result = _service.TryUpdate(request.Id, client, out string message);
+        return Task.FromResult((result, message));
     }
 }

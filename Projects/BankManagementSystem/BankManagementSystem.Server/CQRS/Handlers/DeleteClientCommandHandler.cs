@@ -5,7 +5,7 @@ using MediatR;
 
 namespace BankManagementSystem.CQRS.Handlers;
 
-public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, string>
+public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, (bool, string)>
 {
     private IClientService _service;
     private readonly IMapper _mapper;
@@ -16,9 +16,9 @@ public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, s
         _mapper = mapper;
     }
 
-    public Task<string> Handle(DeleteClientCommand request, CancellationToken cancellationToken)
+    public Task<(bool, string)> Handle(DeleteClientCommand request, CancellationToken cancellationToken)
     {
-        var result = _service.Delete(request.Id);
-        return Task.FromResult(result);
+        var result = _service.TryDelete(request.Id, out string message);
+        return Task.FromResult((result, message));
     }
 }

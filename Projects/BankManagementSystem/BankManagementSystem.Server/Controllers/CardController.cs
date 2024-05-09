@@ -4,7 +4,6 @@ using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
 using BankManagementSystem.Validations;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankManagementSystem.Controllers
@@ -25,7 +24,7 @@ namespace BankManagementSystem.Controllers
         }
 
         [HttpGet("CardsByHolderId")]
-        public IEnumerable<ResponseCard> CardsByHolderId(RequestCardsByHolderId holder)
+        public ActionResult<IEnumerable<ResponseCard>> CardsByHolderId(RequestCardsByHolderId holder)
         {
             var cards = _context.Cards.Where(c => c.HolderId == holder.HolderId);
 

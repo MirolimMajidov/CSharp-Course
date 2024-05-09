@@ -1,5 +1,4 @@
 ﻿using BankManagementSystem.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BankManagementSystem.Services
 {
@@ -26,23 +25,33 @@ namespace BankManagementSystem.Services
             return await _repository.GetById(id);
         }
 
-        public string Create(Client item)
+        public Client TryCreate(Client item, out string message)
         {
-            if (string.IsNullOrEmpty(item.FirstName))
+            if (string.IsNullOrEmpty(item.FirstName) || string.IsNullOrEmpty(item.LastName))
             {
-                return "The name cannot be empty";
+                message = "The first name or last name is be empty";
+                return default;
             }
-            else
+
+            var branch = _repository.GetContext().GetEntities<Branch>().FirstOrDefault(b => b.Id == item.BranchId);
+            if (branch is null)
             {
-                _repository.Create(item);
-                return $"Created new item with this ID: {item.Id}";
+                message = "There is no branch with the passing Id";
+                return default;
             }
+
+            return _repository.TryCreate(item, out message);
         }
 
-        public string Update(Guid id, Client item)
+        public bool TryUpdate(Guid id, Client item, out string message)
         {
             var _item = _repository.GetById(id).GetAwaiter().GetResult();
-            if (_item is not null)
+            if (_item is null)
+            {
+                message = "Item not found";
+                return false;
+            }
+            else
             {
                 _item.FirstName = item.FirstName;
                 _item.LastName = item.LastName;
@@ -51,21 +60,13 @@ namespace BankManagementSystem.Services
                 _item.Password = item.Password;
                 _item.Role = item.Role;
 
-                var result = _repository.Update(_item);
-                if (result)
-                    return "Item updated";
+                return _repository.TryUpdate(_item, out message);
             }
-
-            return "Item not updated";
         }
 
-        public string Delete(Guid id)
+        public bool TryDelete(Guid id, out string message)
         {
-            var result = _repository.Delete(id);
-            if (result)
-                return "Item deleted";
-            else
-                return "Item not found";
+            return _repository.TryDelete(id, out message);
         }
     }
 }

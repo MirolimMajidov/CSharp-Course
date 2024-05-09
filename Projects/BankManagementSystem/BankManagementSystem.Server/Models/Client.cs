@@ -11,7 +11,8 @@ namespace BankManagementSystem.Models
 
         public Guid BranchId { get; set; }
 
-        //public List<Transaction> Transactions { get; set; }
+        [JsonIgnore]
+        public List<Transaction> Transactions { get; set; }
     }
 
     public enum ClientStatus

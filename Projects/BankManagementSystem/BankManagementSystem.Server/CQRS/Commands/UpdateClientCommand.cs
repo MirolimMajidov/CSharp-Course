@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BankManagementSystem.CQRS.Commands;
 
-public class UpdateClientCommand : IRequest<string>
+public class UpdateClientCommand : IRequest<(bool, string)>
 {
     [JsonIgnore]
     public Guid Id { get; set; }

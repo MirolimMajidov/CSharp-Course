@@ -3,6 +3,7 @@ using BankManagementSystem.CQRS.Queries;
 using BankManagementSystem.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BankManagementSystem.Controllers;
 
@@ -20,8 +21,11 @@ public class ClientController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Client>> CreateClient(CreateClientCommand command)
     {
-        var user = await _mediator.Send(command);
-        return Ok(user);
+        var (createdItem, message) = await _mediator.Send(command);
+        if(createdItem is null)
+            return BadRequest(message);
+
+        return Ok(createdItem);
     }
 
     [HttpGet("{id}")]
@@ -47,14 +51,20 @@ public class ClientController : ControllerBase
     public async Task<ActionResult<string>> UpdateClient(Guid id, UpdateClientCommand command)
     {
         command.Id = id;
-        var result = await _mediator.Send(command);
-        return Ok(result);
+        var (result, message) = await _mediator.Send(command);
+        if(result)
+            Ok(message);
+
+        return BadRequest(message);
     }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteUser(DeleteClientCommand deleteClient)
     {
-        var result = await _mediator.Send(deleteClient);
-        return Ok(result);
+        var (result, message) = await _mediator.Send(deleteClient);
+        if (result)
+            Ok(message);
+
+        return BadRequest(message);
     }
 }

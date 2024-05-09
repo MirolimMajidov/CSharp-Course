@@ -1,5 +1,6 @@
 ﻿using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
+using BankManagementSystem.Server.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankManagementSystem.Services
@@ -22,36 +23,41 @@ namespace BankManagementSystem.Services
             return await _context.Set<T>().SingleOrDefaultAsync(w => w.Id == id);
         }
 
-        public bool Create(T item)
+        public T TryCreate(T item, out string message)
         {
+            message = string.Empty;
             try
             {
                 _context.Add(item);
-                var result = _context.SaveChanges();
-                return result > 0;
+                _ = _context.SaveChanges();
+                return item;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                message = ex.Message;
             }
+            return default;
         }
 
-        public bool Update(T item)
+        public bool TryUpdate(T item, out string message)
         {
+            message = string.Empty;
             try
             {
                 _context.Update(item);
                 var result = _context.SaveChanges();
                 return result > 0;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                message = ex.Message;
             }
+            return false;
         }
 
-        public bool Delete(Guid id)
+        public bool TryDelete(Guid id, out string message)
         {
+            message = string.Empty;
             try
             {
                 var item = _context.Set<T>().SingleOrDefault(w => w.Id == id);
@@ -61,11 +67,22 @@ namespace BankManagementSystem.Services
                     var result = _context.SaveChanges();
                     return result > 0;
                 }
+                else
+                {
+                    message = "Item not found";
+                }
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
 
             return false;
+        }
+
+        public IBankContext GetContext()
+        {
+            return _context;
         }
     }
 }

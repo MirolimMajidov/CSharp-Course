@@ -2,7 +2,6 @@ using BankManagementSystem.Infrastructure;
 using BankManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BankManagementSystem.Controllers
 {
@@ -31,7 +30,11 @@ namespace BankManagementSystem.Controllers
         [Authorize(Roles = "editor")]
         public ActionResult<Branch> Get(Guid guid)
         {
-            return Ok(_context.Branchs.FirstOrDefault(b => b.Id == guid));
+            var item = _context.Branchs.FirstOrDefault(b => b.Id == guid);
+            if (item is null)
+                return NotFound();
+
+            return Ok(item);
         }
     }
 }

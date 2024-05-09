@@ -6,7 +6,7 @@ using MediatR;
 
 namespace BankManagementSystem.CQRS.Handlers;
 
-public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, Client>
+public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, (Client, string)>
 {
     private IClientService _service;
     private readonly IMapper _mapper;
@@ -17,10 +17,10 @@ public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, C
         _mapper = mapper;
     }
 
-    public Task<Client> Handle(CreateClientCommand request, CancellationToken cancellationToken)
+    public Task<(Client, string)> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
         var user = _mapper.Map<Client>(request);
-        _service.Create(user);
-        return Task.FromResult(user);
+        var createdItem = _service.TryCreate(user, out string message);
+        return Task.FromResult((createdItem, message));
     }
 }

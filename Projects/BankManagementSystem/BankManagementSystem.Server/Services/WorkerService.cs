@@ -25,44 +25,43 @@ namespace BankManagementSystem.Services
             return await _repository.GetById(id);
         }
 
-        public string Create(Worker item)
+        public Worker TryCreate(Worker item, out string message)
         {
-            if (string.IsNullOrEmpty(item.FirstName))
+            if (string.IsNullOrEmpty(item.FirstName) || string.IsNullOrEmpty(item.LastName))
             {
-                return "The name cannot be empty";
+                message = "The first name or last name is be empty";
+                return default;
             }
             else
             {
-                _repository.Create(item);
-                return $"Created new item with this ID: {item.Id}";
+                return _repository.TryCreate(item, out message);
             }
         }
 
-        public string Update(Guid id, Worker item)
+        public bool TryUpdate(Guid id, Worker item, out string message)
         {
             var _item = _repository.GetById(id).GetAwaiter().GetResult();
-            if (_item is not null)
+            if (_item is null)
+            {
+                message = "Item not found";
+                return false;
+            }
+            else
             {
                 _item.FirstName = item.FirstName;
                 _item.LastName = item.LastName;
                 _item.Birthday = item.Birthday;
+                _item.Username = item.Username;
+                _item.Password = item.Password;
                 _item.Role = item.Role;
 
-                var result = _repository.Update(_item);
-                if (result)
-                    return "Item updated";
+                return _repository.TryUpdate(_item, out message);
             }
-
-            return "Item not updated";
         }
 
-        public string Delete(Guid id)
+        public bool TryDelete(Guid id, out string message)
         {
-            var result = _repository.Delete(id);
-            if (result)
-                return "Item deleted";
-            else
-                return "Item not found";
+            return _repository.TryDelete(id, out message);
         }
     }
 }
