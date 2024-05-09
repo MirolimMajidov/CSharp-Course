@@ -1,6 +1,5 @@
 using BankManagementSystem.Client.Sevices;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace BankManagementSystem.Client
@@ -17,8 +16,8 @@ namespace BankManagementSystem.Client
             //builder.Services.AddTransient(sp => new HttpClient { BaseAddress = serverURL });
 
             builder.Services.AddHttpClient("ServerAPI", client => client.BaseAddress = serverURL);
-            builder.Services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("ServerAPI"));
             builder.Services.AddScoped<IHttpAPIProvider, HttpAPIProvider>();
+            builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
             await builder.Build().RunAsync();
         }

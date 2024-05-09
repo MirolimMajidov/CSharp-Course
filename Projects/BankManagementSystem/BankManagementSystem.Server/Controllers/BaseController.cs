@@ -34,7 +34,7 @@ public abstract class BaseController<TEntity> : ControllerBase where TEntity : B
     }
 
     [HttpPost("Create")]
-    public virtual ActionResult<string> Post([FromBody] TEntity item)
+    public virtual ActionResult<TEntity> Post([FromBody] TEntity item)
     {
         var createdItem = _service.TryCreate(item, out string message);
         if (createdItem is null)

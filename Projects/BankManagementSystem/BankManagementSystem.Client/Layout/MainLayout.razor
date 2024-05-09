@@ -1,16 +1,35 @@
-﻿@inherits LayoutComponentBase
+﻿@inject ITokenProvider tokenProvider
+@inject NavigationManager navigationManager
+@inherits LayoutComponentBase
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="/sign-in">Sign-in</a>
-        </div>
+        @if (tokenProvider.IsAuthenticated)
+        {
+            <div class="top-row px-4">
+                <button type="button" class="btn btn-primary" @onclick="Logout">Sign-out</button>
+            </div>
+        }
+        else
+        {
+            <div class="top-row px-4">
+                <a href="/sign-in">Sign-in</a>
+            </div>
+        }
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code {
+    private void Logout()
+    {
+        tokenProvider.Logout();
+        navigationManager.NavigateTo("/", true);
+    }
+}

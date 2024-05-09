@@ -39,7 +39,7 @@ namespace BankManagementSystem.Services
             if (user.IsBlocked)
                 throw new ArgumentException("User does not have access to login.");
 
-            var userRoles = new string[] { user.Role };
+            var userRoles = new string[] { user.Role ?? "User" };
 
             var claims = new List<Claim> {
                 new Claim("Id", user.Id.ToString()),

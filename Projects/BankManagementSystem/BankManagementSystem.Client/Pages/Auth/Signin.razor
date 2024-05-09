@@ -1,5 +1,6 @@
 ﻿@page "/sign-in"
-@inject HttpClient httpClient
+@using BankManagementSystem.Client.DTO
+@inject ITokenProvider tokenProvider
 @inject NavigationManager navigationManager
 
 <h3>Sign-in</h3>
@@ -32,20 +33,14 @@
 
     private async Task Login()
     {
-        var response = await httpClient.PostAsJsonAsync("api/login", loginModel);
-        if (response.IsSuccessStatusCode)
+        var response = await tokenProvider.LoginAsync(loginModel);
+        if (response.IsAuthenticated)
         {
-            navigationManager.NavigateTo("/dashboard");
+            navigationManager.NavigateTo("/", true);
         }
         else
         {
             errorMessage = "Invalid username/email or password.";
         }
-    }
-
-    public class LoginModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
     }
 }

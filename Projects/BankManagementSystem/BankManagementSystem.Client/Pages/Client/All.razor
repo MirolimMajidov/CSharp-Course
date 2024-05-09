@@ -56,8 +56,8 @@ else
 
 @code {
     protected string SearchString { get; set; } = string.Empty;
-    private ClientDTO[]? _allClients;
-    private ClientDTO[]? _filteredClients;
+    private ClientDTO[] _allClients;
+    private ClientDTO[] _filteredClients;
 
     protected override async Task OnInitializedAsync()
     {

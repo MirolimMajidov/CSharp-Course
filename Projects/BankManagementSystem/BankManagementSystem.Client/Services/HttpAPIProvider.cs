@@ -10,7 +10,7 @@ public class HttpAPIProvider : IHttpAPIProvider
         _httpClientFactory = httpClientFactory;
     }
 
-    HttpClient GetHttpClient() => _httpClientFactory.CreateClient("ServerAPI");
+    public HttpClient GetHttpClient() => _httpClientFactory.CreateClient("ServerAPI");
 
     public async Task<(bool isSuccessStatusCode, T result, string message)> GetAsync<T>(string endponit) where T : class
     {
@@ -50,19 +50,26 @@ public class HttpAPIProvider : IHttpAPIProvider
 
     private async Task<(bool isSuccessStatusCode, T result, string message)> SendAsync<T>(HttpRequestMessage request) where T : class
     {
-        using var response = await GetHttpClient().SendAsync(request);
-        var responseMessage = await response.Content.ReadAsStringAsync();
-        T result;
-        if (response.IsSuccessStatusCode)
+        try
         {
-            result = JsonConvert.DeserializeObject<T>(responseMessage);
-        }
-        else
-        {
-            result = Activator.CreateInstance<T>();
-        }
+            using var response = await GetHttpClient().SendAsync(request);
+            var responseMessage = await response.Content.ReadAsStringAsync();
+            T result;
+            if (response.IsSuccessStatusCode)
+            {
+                result = JsonConvert.DeserializeObject<T>(responseMessage);
+            }
+            else
+            {
+                result = Activator.CreateInstance<T>();
+            }
 
-        return (response.IsSuccessStatusCode, result, responseMessage);
+            return (response.IsSuccessStatusCode, result, responseMessage);
+        }
+        catch (Exception ex)
+        {
+            return (default, default, ex.Message);
+        }
     }
 
 }

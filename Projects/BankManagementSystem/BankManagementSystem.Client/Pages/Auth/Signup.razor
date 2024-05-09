@@ -1,5 +1,5 @@
 ﻿@page "/sign-up"
-@inject HttpClient httpClient
+@inject IHttpAPIProvider _apiProvider
 @inject NavigationManager navigationManager
 
 <h3>Sing-up</h3>
@@ -35,7 +35,7 @@
 </form>
 
 @code {
-    private RegisterModel registerModel = new RegisterModel();
+    private WorkerDTO registerModel = new WorkerDTO();
     private string errorMessage;
 
     private async Task Register()
@@ -46,28 +46,14 @@
             return;
         }
 
-        var response = await httpClient.PostAsJsonAsync("worker/create", registerModel);
-        if (response.IsSuccessStatusCode)
+        (bool isSuccessStatusCode, WorkerDTO createClient, string message) = await _apiProvider.PostAsync<WorkerDTO>("worker/create", registerModel);
+        if (isSuccessStatusCode)
         {
-            navigationManager.NavigateTo("/sing-in");
+            navigationManager.NavigateTo("/sign-in");
         }
         else
         {
-            var errorText = await response.Content.ReadAsStringAsync();
-            errorMessage = $"Failed to register user. Server response: {errorText}";
-        }
-    }
-
-    public class RegisterModel
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-
-        public bool IsValid()
-        {
-            return !(string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password));
+            errorMessage = $"Failed to register user. Server response: {message}";
         }
     }
 }
