@@ -7,7 +7,7 @@ public interface ITokenProvider
 {
     bool IsAuthenticated { get; }
 
-    string GetAccessToken(bool refreshAccessTokenIfAuthenticated = false);
+    string GetAccessToken();
 
     Task<(bool IsAuthenticated, string message)> LoginAsync(LoginModel loginModel);
 

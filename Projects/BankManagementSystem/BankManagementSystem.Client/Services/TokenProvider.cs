@@ -1,29 +1,39 @@
 ﻿using BankManagementSystem.Client.DTO;
+using Blazored.LocalStorage;
+using System.Net.NetworkInformation;
 
 namespace BankManagementSystem.Client.Sevices;
 
 public class TokenProvider : ITokenProvider
 {
-    readonly IHttpAPIProvider _httpAPIProvider;
-    public TokenProvider(IHttpAPIProvider httpAPIProvider)
+    readonly IServiceProvider _provider;
+    readonly ISyncLocalStorageService _localStorage;
+    public TokenProvider(IServiceProvider provider, ISyncLocalStorageService localStorage)
     {
-        _httpAPIProvider = httpAPIProvider;
+        _provider = provider;
+        _localStorage = localStorage;
+        LoadTokenInfo();
     }
 
     public bool IsAuthenticated { get; set; }
 
+    bool IsTokenExpired => token == null || token.ExpireTime < DateTimeOffset.Now;
+
     static TokenInfo token;
-    public string GetAccessToken(bool forceGetAccessToken)
+    public string GetAccessToken()
     {
-        if (forceGetAccessToken && IsAuthenticated)
-            GetNewRefreshToken(token?.RefreshToken);
+        if (IsTokenExpired && token is not null)
+            GetNewRefreshToken(token.RefreshToken);
 
         return token?.AccessToken;
     }
 
+    private IHttpAPIProvider GetHttpAPIProvider() =>
+        _provider.GetService<IHttpAPIProvider>();
+
     public async Task<(bool IsAuthenticated, string message)> LoginAsync(LoginModel loginModel)
     {
-        (bool isSuccessStatusCode, TokenInfo tokenInfo, string message) = await _httpAPIProvider.PostAsync<TokenInfo>($"Auth/Token?username={loginModel.Username}&password={loginModel.Password}");
+        (bool isSuccessStatusCode, TokenInfo tokenInfo, string message) = await GetHttpAPIProvider().PostAsync<TokenInfo>($"Auth/Token?username={loginModel.Username}&password={loginModel.Password}");
         UpdateTokenInfo(isSuccessStatusCode, tokenInfo);
 
         return (isSuccessStatusCode, message);
@@ -40,17 +50,30 @@ public class TokenProvider : ITokenProvider
         {
             IsAuthenticated = true;
             token = tokenInfo;
+
+            _localStorage.SetItem(nameof(TokenInfo), tokenInfo);
         }
         else
         {
             IsAuthenticated = false;
             token = null;
+
+            _localStorage.RemoveItem(nameof(TokenInfo));
+        }
+    }
+
+    private void LoadTokenInfo()
+    {
+        if (_localStorage.ContainKey(nameof(TokenInfo)))
+        {
+            token = _localStorage.GetItem<TokenInfo>(nameof(TokenInfo));
+            IsAuthenticated = !IsTokenExpired;
         }
     }
 
     private void GetNewRefreshToken(string refreshToken)
     {
-        (bool isSuccessStatusCode, TokenInfo tokenInfo, string message) = _httpAPIProvider.PostAsync<TokenInfo>($"Auth/RefreshToken?refreshToken={refreshToken}").GetAwaiter().GetResult();
+        (bool isSuccessStatusCode, TokenInfo tokenInfo, string message) = GetHttpAPIProvider().PostAsync<TokenInfo>($"Auth/RefreshToken?refreshToken={refreshToken}").GetAwaiter().GetResult();
         UpdateTokenInfo(isSuccessStatusCode, tokenInfo);
     }
 }

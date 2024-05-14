@@ -49,11 +49,12 @@ namespace BankManagementSystem.Services
             foreach (var userRole in userRoles)
                 claims.Add(new Claim(ClaimTypes.Role, userRole));
 
+            var expireTime = DateTime.UtcNow.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME));
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
                     audience: AuthOptions.AUDIENCE,
                     claims: claims,
-                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    expires: expireTime,
                     signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
@@ -63,7 +64,7 @@ namespace BankManagementSystem.Services
             _context.Update(user);
             await _context.SaveChangesAsync();
 
-            return new TokenInfo { AccessToken = accessToken, RefreshToken = refreshToken };
+            return new TokenInfo { AccessToken = accessToken, RefreshToken = refreshToken, ExpireTime = expireTime };
         }
     }
 }

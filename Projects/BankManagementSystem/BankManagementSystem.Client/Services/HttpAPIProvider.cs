@@ -1,13 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 
 namespace BankManagementSystem.Client.Sevices;
 
 public class HttpAPIProvider : IHttpAPIProvider
 {
     readonly IHttpClientFactory _httpClientFactory;
-    public HttpAPIProvider(IHttpClientFactory httpClientFactory)
+    readonly ITokenProvider _tokenProvider;
+    NavigationManager _navigationManager;
+    public HttpAPIProvider(IHttpClientFactory httpClientFactory, ITokenProvider tokenProvider, NavigationManager navigationManager)
     {
         _httpClientFactory = httpClientFactory;
+        _tokenProvider = tokenProvider;
+        _navigationManager = navigationManager;
     }
 
     public HttpClient GetHttpClient() => _httpClientFactory.CreateClient("ServerAPI");
@@ -52,6 +57,8 @@ public class HttpAPIProvider : IHttpAPIProvider
     {
         try
         {
+            if (_tokenProvider.IsAuthenticated)
+                request.Headers.Add("Authorization", $"Bearer {_tokenProvider.GetAccessToken()}");
             using var response = await GetHttpClient().SendAsync(request);
             var responseMessage = await response.Content.ReadAsStringAsync();
             T result;
@@ -61,6 +68,9 @@ public class HttpAPIProvider : IHttpAPIProvider
             }
             else
             {
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    _navigationManager.NavigateTo("/sign-in");
+
                 result = Activator.CreateInstance<T>();
             }
 

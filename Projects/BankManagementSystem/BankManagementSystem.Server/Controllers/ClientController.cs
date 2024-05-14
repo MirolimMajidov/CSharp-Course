@@ -2,6 +2,7 @@
 using BankManagementSystem.CQRS.Queries;
 using BankManagementSystem.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -9,6 +10,7 @@ namespace BankManagementSystem.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class ClientController : ControllerBase
 {
     private readonly IMediator _mediator;

@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Components;
+
 namespace BankManagementSystem.Client.Sevices;
 
 public interface IHttpAPIProvider

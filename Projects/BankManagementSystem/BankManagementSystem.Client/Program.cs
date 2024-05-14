@@ -1,4 +1,5 @@
 using BankManagementSystem.Client.Sevices;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -18,6 +19,7 @@ namespace BankManagementSystem.Client
             builder.Services.AddHttpClient("ServerAPI", client => client.BaseAddress = serverURL);
             builder.Services.AddScoped<IHttpAPIProvider, HttpAPIProvider>();
             builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+            builder.Services.AddBlazoredLocalStorageAsSingleton();
 
             await builder.Build().RunAsync();
         }
