@@ -11,11 +11,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SOLID", "SOLID\SOLID.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServerApp", "BlazorServerApp\BlazorServerApp.csproj", "{B5D0591B-C58E-46D5-8CE5-FD84A2256FDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerClientApp.Server", "BlazorServerClientApp\Server\BlazorServerClientApp.Server.csproj", "{57B87D60-C5AE-4D33-B4AE-75675DE4349A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServerClientApp.Server", "BlazorServerClientApp\Server\BlazorServerClientApp.Server.csproj", "{57B87D60-C5AE-4D33-B4AE-75675DE4349A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerClientApp.Client", "BlazorServerClientApp\Client\BlazorServerClientApp.Client.csproj", "{D2476F36-A483-4E92-BFC2-A890A183CA6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServerClientApp.Client", "BlazorServerClientApp\Client\BlazorServerClientApp.Client.csproj", "{D2476F36-A483-4E92-BFC2-A890A183CA6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerClientApp.Shared", "BlazorServerClientApp\Shared\BlazorServerClientApp.Shared.csproj", "{4B6785E3-DC8F-4441-A24A-BE9D9B347271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServerClientApp.Shared", "BlazorServerClientApp\Shared\BlazorServerClientApp.Shared.csproj", "{4B6785E3-DC8F-4441-A24A-BE9D9B347271}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2FBEC2F3-2462-4C2E-9735-88D9EF919C4A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting.MSTest", "UnitTesting.Test\UnitTesting.MSTest.csproj", "{BB9CBE52-F133-4A6E-BCBD-AFBC2B73F483}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting.NTest", "UnitTesting.NTest\UnitTesting.NTest.csproj", "{42A9B42D-5029-41A8-AAD0-43467E482A09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,9 +57,21 @@ Global
 		{4B6785E3-DC8F-4441-A24A-BE9D9B347271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B6785E3-DC8F-4441-A24A-BE9D9B347271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B6785E3-DC8F-4441-A24A-BE9D9B347271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB9CBE52-F133-4A6E-BCBD-AFBC2B73F483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB9CBE52-F133-4A6E-BCBD-AFBC2B73F483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB9CBE52-F133-4A6E-BCBD-AFBC2B73F483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB9CBE52-F133-4A6E-BCBD-AFBC2B73F483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A9B42D-5029-41A8-AAD0-43467E482A09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A9B42D-5029-41A8-AAD0-43467E482A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A9B42D-5029-41A8-AAD0-43467E482A09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A9B42D-5029-41A8-AAD0-43467E482A09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB9CBE52-F133-4A6E-BCBD-AFBC2B73F483} = {2FBEC2F3-2462-4C2E-9735-88D9EF919C4A}
+		{42A9B42D-5029-41A8-AAD0-43467E482A09} = {2FBEC2F3-2462-4C2E-9735-88D9EF919C4A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33D5577C-2434-4B74-92A7-853F7DDDFC91}
