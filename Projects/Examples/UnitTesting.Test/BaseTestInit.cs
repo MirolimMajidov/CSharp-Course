@@ -18,7 +18,7 @@ public abstract class BaseTestInit
 
 
     [TestInitialize]
-    public void TestInitialize()
+    public virtual void TestInitialize()
     {
     }
 
