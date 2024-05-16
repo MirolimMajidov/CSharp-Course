@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace UnitTesting.NTest
+﻿namespace CalculatorApp
 {
-    internal class Calculator
+    public class Calculator
     {
         public int Add(int a, int b)
         {

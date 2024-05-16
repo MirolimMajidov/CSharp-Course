@@ -1,5 +1,6 @@
 
 
+using CalculatorApp;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -8,6 +9,19 @@ namespace UnitTesting.NTest
 {
     public class CalculatorTests: BaseTestInit
     {
+        public DateTime Time;
+
+        public CalculatorTests()
+        {
+            Time = DateTime.Now;
+        }
+
+        [SetUp]
+        public void TestCleanup()
+        {
+            Console.WriteLine(Time);
+        }
+
         [Test]
         public void CalculatorAdd_FirstValue4AndSecondValue11_ThatShouldBeEqualTo15()
         {

@@ -16,10 +16,11 @@ public abstract class BaseTestInit
     //{
     //}
 
-    [SetUp]
-    public void TestCleanup()
-    {
-    }
+    //[SetUp]
+    //public void TestCleanup()
+    //{
+
+    //}
 
     //[ClassCleanup]
     //public static void ClassCleanup()
