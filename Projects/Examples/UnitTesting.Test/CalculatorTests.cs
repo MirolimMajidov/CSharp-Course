@@ -7,14 +7,6 @@ namespace UnitTesting.MSTest
     [TestClass]
     public class CalculatorTests : BaseTestInit
     {
-        private Calculator calculator;
-
-        public CalculatorTests()
-        {
-            // Arrange
-            calculator = new Calculator();
-        }
-
         [TestMethod]
         public void CalculatorAdd_FirstValue4AndSecondValue11_ThatShouldBeEqultTo15()
         {
@@ -32,6 +24,9 @@ namespace UnitTesting.MSTest
         [TestMethod]
         public void CalculatorAdd_FirstValue5AndSecondValue6_ThatShouldBotBeEqultTo15()
         {
+            // Arrange/Given
+            var calculator = new Calculator();
+
             // Act
             var result = calculator.Add(5, 6);
 
@@ -48,7 +43,7 @@ namespace UnitTesting.MSTest
         public void Add_AddsTwoNumbers_ReturnsSum(int a, int b, int expected)
         {
             // Arrange/Given
-            calculator = new Calculator();
+            var calculator = new Calculator();
 
             // Act/When
             int result = calculator.Add(a, b);
@@ -65,6 +60,9 @@ namespace UnitTesting.MSTest
         [DataRow(100, 50, 50)]
         public void Subtract_SubtractsTwoNumbers_ReturnsDifference(int a, int b, int expected)
         {
+            // Arrange/Given
+            var calculator = new Calculator();
+
             // Act
             int result = calculator.Subtract(a, b);
 
@@ -80,6 +78,9 @@ namespace UnitTesting.MSTest
         [DataRow(10, 20, 200)]
         public void Multiply_MultipliesTwoNumbers_ReturnsProduct(int a, int b, int expected)
         {
+            // Arrange/Given
+            var calculator = new Calculator();
+
             // Act
             int result = calculator.Multiply(a, b);
 
@@ -95,6 +96,9 @@ namespace UnitTesting.MSTest
         [DataRow(100, 25, 4.0)]
         public void Divide_DividesTwoNumbers_ReturnsQuotient(int a, int b, double expected)
         {
+            // Arrange/Given
+            var calculator = new Calculator();
+
             // Act
             double result = calculator.Divide(a, b);
 
@@ -109,6 +113,9 @@ namespace UnitTesting.MSTest
         [DataRow(0, 0)]
         public void Divide_DivideByZero_ThrowsArgumentException(int a, int b)
         {
+            // Arrange/Given
+            var calculator = new Calculator();
+
             // Act
             Action act = () => calculator.Divide(a, b);
 

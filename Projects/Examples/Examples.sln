@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2FBEC2F3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting.MSTest", "UnitTesting.Test\UnitTesting.MSTest.csproj", "{BB9CBE52-F133-4A6E-BCBD-AFBC2B73F483}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting.NTest", "UnitTesting.NTest\UnitTesting.NTest.csproj", "{42A9B42D-5029-41A8-AAD0-43467E482A09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting.NUnitTest", "UnitTesting.NTest\UnitTesting.NUnitTest.csproj", "{42A9B42D-5029-41A8-AAD0-43467E482A09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
