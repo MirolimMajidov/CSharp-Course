@@ -7,6 +7,7 @@ namespace BankManagementSystem.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[AllowAnonymous]
 public class WorkerController : BaseController<Worker>
 {
     public WorkerController(ILogger<WorkerController> logger, IWorkerService service) : base(logger, service)
