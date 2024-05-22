@@ -1,19 +1,12 @@
 using BankManagementSystem.Infrastructure;
-using BankManagementSystem.Services;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Proxies;
-using System.Text.Json.Serialization;
-using BankManagementSystem.Filters;
 using BankManagementSystem.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using MyUser.Models.Helpers;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Hosting;
+using BankManagementSystem.Services;
 using BankManagementSystem.Validations;
 using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using MyUser.Models.Helpers;
+using System.Text.Json.Serialization;
 
 namespace BankManagementSystem;
 
@@ -86,7 +79,18 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             var context = scope.ServiceProvider.GetService<BankContext>();
-            context.Database.Migrate();
+#if DEBUG
+            if (builder.Environment.IsEnvironment("Test"))
+            {
+                context.Database.EnsureCreated();
+            }
+            else
+            {
+#endif
+                context.Database.Migrate();
+#if DEBUG           
+            }
+#endif
         }
 
         // Configure the HTTP request pipeline.
