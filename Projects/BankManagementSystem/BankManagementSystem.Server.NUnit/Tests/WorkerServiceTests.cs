@@ -1,25 +1,12 @@
-﻿using NSubstitute;
-using NUnit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using BankManagementSystem.Services;
-using BankManagementSystem.Models;
+﻿using BankManagementSystem.Models;
+using BankManagementSystem.Server.NUnit.UnitTests.CommonData;
+using NSubstitute;
+using NUnit.Framework;
 
-namespace BankManagementSystem.Server.NUnit;
+namespace BankManagementSystem.Server.NUnit.UnitTests.Tests;
 
-public class WorkerServiceTests
+public class WorkerServiceTests : BaseTestEntity
 {
-    private IWorkerService _workerService;
-    private ISQLRepository<Worker> _repository;
-
-    [SetUp]
-    public void SetUp()
-    {
-        _repository = Substitute.For<ISQLRepository<Worker>>();
-        _workerService = new WorkerService(_repository);
-    }
-
     [Test]
     public void GetAll_ShouldReturnAllWorkers()
     {
@@ -31,7 +18,7 @@ public class WorkerServiceTests
         var result = _workerService.GetAll();
 
         // Assert
-        Assert.AreEqual(workers, result);
+        Assert.That(result, Is.EqualTo(workers));
     }
 
     [Test]
@@ -45,7 +32,7 @@ public class WorkerServiceTests
         var result = await _workerService.GetById(worker.Id);
 
         // Assert
-        Assert.AreEqual(worker, result);
+        Assert.That(result, Is.EqualTo(worker));
     }
 
     [Test]
@@ -59,8 +46,8 @@ public class WorkerServiceTests
         var result = _workerService.TryCreate(worker, out message);
 
         // Assert
-        Assert.IsNull(result);
-        Assert.AreEqual("The first name or last name is be empty", message);
+        Assert.That(result, Is.Null);
+        Assert.That(message, Is.EqualTo("The first name or last name is be empty"));
     }
 
     [Test]
@@ -74,8 +61,8 @@ public class WorkerServiceTests
         var result = _workerService.TryCreate(worker, out string message);
 
         // Assert
-        Assert.AreEqual(worker, result);
-        Assert.IsNull(message);
+        Assert.That(result, Is.EqualTo(worker));
+        Assert.That(message, Is.Null);
     }
 
     [Test]
@@ -90,15 +77,15 @@ public class WorkerServiceTests
         var result = _workerService.TryUpdate(workerId, worker, out string message);
 
         // Assert
-        Assert.IsFalse(result);
-        Assert.AreEqual("Item not found", message);
+        Assert.That(result, Is.False);
+        Assert.That(message, Is.EqualTo("Item not found"));
     }
 
     [Test]
     public void TryUpdate_ShouldUpdateWorker_WhenWorkerIsFound()
     {
         // Arrange
-        var existingWorker = new Worker {FirstName = "John", LastName = "Doe" };
+        var existingWorker = new Worker { FirstName = "John", LastName = "Doe" };
         var updatedWorker = new Worker { FirstName = "Jane", LastName = "Smith" };
         _repository.GetById(existingWorker.Id).Returns(Task.FromResult(existingWorker));
         _repository.TryUpdate(existingWorker, out Arg.Any<string>()).Returns(true);
@@ -107,10 +94,10 @@ public class WorkerServiceTests
         var result = _workerService.TryUpdate(existingWorker.Id, updatedWorker, out string message);
 
         // Assert
-        Assert.IsTrue(result);
-        Assert.IsNull(message);
-        Assert.AreEqual("Jane", existingWorker.FirstName);
-        Assert.AreEqual("Smith", existingWorker.LastName);
+        Assert.That(result, Is.True);
+        Assert.That(message, Is.Null);
+        Assert.That(existingWorker.FirstName, Is.EqualTo("Jane"));
+        Assert.That(existingWorker.LastName, Is.EqualTo("Smith"));
     }
 
     [Test]
@@ -124,7 +111,7 @@ public class WorkerServiceTests
         var result = _workerService.TryDelete(workerId, out string message);
 
         // Assert
-        Assert.IsTrue(result);
-        Assert.IsNull(message);
+        Assert.That(result, Is.True);
+        Assert.That(message, Is.Null);
     }
 }

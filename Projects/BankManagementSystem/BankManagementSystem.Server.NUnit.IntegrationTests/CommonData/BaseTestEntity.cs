@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.TestHost;
 
-namespace BankManagementSystem.Server.NUnit.IntegrationTests
+namespace BankManagementSystem.Server.NUnit.IntegrationTests.CommonData
 {
     public abstract class BaseTestEntity
     {
