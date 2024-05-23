@@ -11,14 +11,13 @@ namespace BankManagementSystem.Server.NUnit.IntegrationTests.CommonData
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment("Test");
+            builder.UseEnvironment("MyEnv");
 
             builder.ConfigureServices(services =>
             {
                 // Remove the existing context configuration
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<BankContext>));
-
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);
