@@ -30,4 +30,4 @@ jobs:
       run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.Server/BankManagementSystem.Server.csproj" --no-restore --configuration Release
       
     - name: Run tests
-      run: dotnet test "Projects/**/*.csproj" --logger "console;verbosity=detailed" --blame
+      run: dotnet test "Projects/BankManagementSystem/BankManagementSystem.Server/BankManagementSystem.Server.NUnit/BankManagementSystem.Server.NUnit.csproj" --logger "console;verbosity=detailed" --blame
