@@ -1,4 +1,4 @@
-name: Building the main application
+name: Running test applications
 
 on:
   push:
