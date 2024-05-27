@@ -28,8 +28,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore "Projects/BankManagementSystem/BankManagementSystem.sln"
       
-    - name: Build
-      run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.sln" --no-restore --configuration Release
+    - name: Building application on Debug mode
+      run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.sln" --no-restore --configuration Debug
       
-    - name: Run tests
-      run: dotnet test "Projects/BankManagementSystem/BankManagementSystem.sln" --logger "console;verbosity=detailed" --blame
+    - name: Building application on Release mode
+      run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.sln" --no-restore --configuration Release

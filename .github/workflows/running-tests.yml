@@ -1,0 +1,30 @@
+name: Building the main application
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+    - Projects/BankManagementSystem/**
+    - .github/workflows/**.yml
+  pull_request:
+    branches: [ "main" ]
+    paths:
+    - Projects/BankManagementSystem/**
+    - .github/workflows/**.yml
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
+      
+    - name: Run unit tests
+      run: dotnet test "Projects/BankManagementSystem/BankManagementSystem.Server.NUnit/BankManagementSystem.Server.NUnit.UnitTests.csproj" --logger "console;verbosity=detailed" --blame
+      
+    - name: Run integration tests
+      run: dotnet test "Projects/BankManagementSystem/BankManagementSystem.Server.NUnit.IntegrationTests/BankManagementSystem.Server.NUnit.IntegrationTests.csproj" --logger "console;verbosity=detailed" --blame
