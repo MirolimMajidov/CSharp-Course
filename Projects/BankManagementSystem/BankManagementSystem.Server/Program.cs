@@ -109,7 +109,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        app.MapGet("MyMinAPI", (string name) => $"Hello {name}");
+        app.MapGet("/", () => "Welcome to site");
 
         app.Run();
 
