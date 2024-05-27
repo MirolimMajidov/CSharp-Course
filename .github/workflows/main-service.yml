@@ -12,6 +12,8 @@ on:
     - Projects/BankManagementSystem/**
     - .github/workflows/**.yml
   workflow_dispatch:
+  schedule:
+    - cron: "0 14 * * *"
 
 jobs:
   build:
@@ -24,10 +26,10 @@ jobs:
         dotnet-version: '8.0.x'
         
     - name: Restore dependencies
-      run: dotnet restore "Projects/BankManagementSystem/BankManagementSystem.Server/BankManagementSystem.Server.csproj"
+      run: dotnet restore "Projects/BankManagementSystem/BankManagementSystem.sln"
       
     - name: Build
-      run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.Server/BankManagementSystem.Server.csproj" --no-restore --configuration Release
+      run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.sln" --no-restore --configuration Release
       
     - name: Run tests
-      run: dotnet test "Projects/BankManagementSystem/BankManagementSystem.Server.NUnit/BankManagementSystem.Server.NUnit.UnitTests.csproj" --logger "console;verbosity=detailed" --blame
+      run: dotnet test "Projects/BankManagementSystem/BankManagementSystem.sln" --logger "console;verbosity=detailed" --blame

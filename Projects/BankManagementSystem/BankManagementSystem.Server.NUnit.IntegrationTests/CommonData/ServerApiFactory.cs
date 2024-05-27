@@ -11,7 +11,7 @@ namespace BankManagementSystem.Server.NUnit.IntegrationTests.CommonData
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment("MyEnv");
+            builder.UseEnvironment("Test");
 
             builder.ConfigureServices(services =>
             {
