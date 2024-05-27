@@ -3,8 +3,15 @@ name: Building the main application
 on:
   push:
     branches: [ "main" ]
+    paths:
+    - Projects/BankManagementSystem/**
+    - .github/workflows/**.yml
   pull_request:
     branches: [ "main" ]
+    paths:
+    - Projects/BankManagementSystem/**
+    - .github/workflows/**.yml
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,7 +24,7 @@ jobs:
         dotnet-version: '8.0.x'
         
     - name: Restore dependencies
-      run: dotnet restore "Projects/**/*.csproj"
+      run: dotnet restore "Projects/BankManagementSystem/BankManagementSystem.Server/BankManagementSystem.Server.csproj"
       
     - name: Build
       run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.Server/BankManagementSystem.Server.csproj" --no-restore --configuration Release
