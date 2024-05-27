@@ -20,7 +20,7 @@ jobs:
       run: dotnet restore "Projects/**/*.csproj"
       
     - name: Build
-      run: dotnet build "Projects/**/*.csproj" --no-restore --configuration Release
+      run: dotnet build "Projects/BankManagementSystem/BankManagementSystem.Server/BankManagementSystem.Server.csproj" --no-restore --configuration Release
       
     - name: Run tests
       run: dotnet test "Projects/**/*.csproj" --logger "console;verbosity=detailed" --blame
